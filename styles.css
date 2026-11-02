@@ -1,0 +1,1487 @@
+/* Home Page Styles */
+.home-page * {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+.home-page html,
+.home-page body {
+  height: 100%;
+  overflow: hidden;
+  font-family: "Press Start 2P", cursive;
+  color: white;
+  background: url("image/background.jpg") no-repeat center center fixed;
+  background-size: cover;
+  text-align: center;
+}
+.home-page .stars {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+}
+.home-page .star {
+  position: absolute;
+  width: 5px;
+  height: 5px;
+  background: rgba(205, 168, 5, 0.529);
+  border-radius: 50%;
+  animation: blink 2s infinite ease-in-out;
+}
+@keyframes blink {
+  0%,
+  100% {
+    opacity: 0.2;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+.home-page .navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 30px;
+  background: rgba(10, 10, 40, 0.85);
+  position: fixed;
+  width: 100%;
+  top: 0;
+  z-index: 100;
+  box-sizing: border-box;
+}
+.home-page .nav-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.home-page .nav-left img {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+}
+.home-page .nav-title {
+  font-size: 12px;
+  background: #00aaff;
+  padding: 6px 14px;
+  border-radius: 20px;
+  white-space: nowrap;
+}
+.home-page .nav-links {
+  display: flex;
+  gap: 20px;
+}
+.home-page .nav-links a {
+  color: white;
+  text-decoration: none;
+  font-size: 11px;
+}
+.home-page .nav-links a:hover,
+.home-page .nav-links a.active {
+  color: #ffd700;
+  text-shadow: 0 0 10px #ffd700;
+}
+.home-page .hamburger {
+  display: none;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 24px;
+  height: 18px;
+  cursor: pointer;
+}
+.home-page .hamburger div {
+  background-color: white;
+  height: 3px;
+  border-radius: 2px;
+}
+@media (max-width: 768px) {
+  .home-page .hamburger {
+    display: flex;
+  }
+  .home-page .nav-links {
+    display: none;
+    flex-direction: column;
+    background: rgba(10, 10, 40, 0.95);
+    width: 100%;
+    position: absolute;
+    top: 65px;
+    left: 0;
+    text-align: center;
+    padding: 15px 0;
+    animation: slideDown 0.3s ease forwards;
+  }
+  .home-page .nav-links a {
+    padding: 10px 0;
+    display: block;
+    font-size: 10px;
+  }
+  .home-page .nav-links.show {
+    display: flex;
+  }
+  @keyframes slideDown {
+    from {
+      opacity: 0;
+      transform: translateY(-10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+}
+.home-page .main-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  padding-top: 60px;
+  box-sizing: border-box;
+  position: relative;
+  z-index: 1;
+}
+.home-page .main-content h2 {
+  font-size: 18px;
+  margin: 0;
+}
+.home-page .main-content h1 {
+  font-size: 22px;
+  color: #ffd700;
+  margin: 15px 0;
+}
+.home-page .btn-mula {
+  display: inline-block;
+  margin-top: 20px;
+  background: #ff2d2d;
+  color: white;
+  padding: 14px 40px;
+  border-radius: 6px;
+  text-decoration: none;
+  font-size: 12px;
+  box-shadow: 0 0 20px #ff2d2d;
+  animation: glow 1.5s infinite alternate;
+}
+@keyframes glow {
+  from {
+    box-shadow: 0 0 5px #ff2d2d;
+  }
+  to {
+    box-shadow: 0 0 25px #ff5c5c, 0 0 40px #ff2d2d;
+  }
+}
+.home-page .info-box {
+  margin-top: 40px;
+  background: rgba(0, 120, 255, 0.6);
+  padding: 20px 30px;
+  border-radius: 20px;
+  width: 80%;
+  max-width: 480px;
+  font-size: 10px;
+  line-height: 1.6;
+}
+.home-page .info-box span.red {
+  color: #ff4a4a;
+}
+.home-page .avatar-chat-container {
+  position: fixed;
+  bottom: 30px;
+  left: 30px;
+  z-index: 50;
+  display: flex;
+  align-items: flex-end;
+  gap: 15px;
+  animation: slideInLeft 0.5s ease-out;
+}
+@keyframes slideInLeft {
+  from {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+.home-page .avatar-3d-wrapper {
+  width: 120px;
+  height: 120px;
+  background: rgba(10, 10, 40, 0.7);
+  border-radius: 50%;
+  border: 3px solid #ffd700;
+  box-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+  overflow: hidden;
+  position: relative;
+}
+.home-page .chat-bubble {
+  background: rgba(255, 255, 255, 0.95);
+  color: #333;
+  padding: 15px 20px;
+  border-radius: 20px 20px 20px 5px;
+  max-width: 280px;
+  font-size: 9px;
+  line-height: 1.5;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+  position: relative;
+  animation: bounce 0.6s ease-out;
+}
+@keyframes bounce {
+  0% {
+    transform: scale(0.8) translateY(20px);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(1) translateY(0);
+    opacity: 1;
+  }
+}
+.home-page .chat-bubble::before {
+  content: "";
+  position: absolute;
+  bottom: 10px;
+  left: -10px;
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 0 15px 15px 0;
+  border-color: transparent rgba(255, 255, 255, 0.95) transparent transparent;
+}
+.home-page .chat-bubble strong {
+  color: #ff2d2d;
+  display: block;
+  margin-bottom: 5px;
+}
+.home-page #three-container {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  inset: 0;
+}
+@media (max-width: 768px) {
+  .home-page .avatar-chat-container {
+    bottom: 15px;
+    left: 15px;
+    gap: 10px;
+  }
+  .home-page .avatar-3d-wrapper {
+    width: 90px;
+    height: 90px;
+    border-width: 2px;
+  }
+  .home-page .chat-bubble {
+    max-width: 220px;
+    font-size: 8px;
+    padding: 12px 16px;
+  }
+  .home-page .main-content {
+    padding: 60px 20px 150px 20px;
+  }
+  .home-page .info-box {
+    width: 85%;
+    margin-bottom: 20px;
+  }
+}
+@media (max-width: 480px) {
+  .home-page .nav-title {
+    font-size: 10px;
+    padding: 5px 10px;
+  }
+  .home-page .nav-left img {
+    width: 38px;
+    height: 38px;
+  }
+  .home-page .main-content h1 {
+    font-size: 16px;
+  }
+  .home-page .main-content h2 {
+    font-size: 14px;
+  }
+  .home-page .btn-mula {
+    padding: 10px 30px;
+    font-size: 10px;
+  }
+  .home-page .info-box {
+    font-size: 8px;
+    width: 90%;
+    padding: 15px 20px;
+  }
+  .home-page .avatar-chat-container {
+    bottom: 10px;
+    left: 10px;
+    gap: 8px;
+  }
+  .home-page .avatar-3d-wrapper {
+    width: 70px;
+    height: 70px;
+  }
+  .home-page .chat-bubble {
+    max-width: 180px;
+    font-size: 7px;
+    padding: 10px 12px;
+    border-radius: 15px 15px 15px 3px;
+  }
+  .home-page .chat-bubble::before {
+    border-width: 0 10px 10px 0;
+  }
+}
+@media (max-width: 380px) {
+  .home-page .avatar-3d-wrapper {
+    width: 60px;
+    height: 60px;
+  }
+  .home-page .chat-bubble {
+    max-width: 150px;
+    font-size: 6px;
+    padding: 8px 10px;
+  }
+  .home-page .main-content h1 {
+    font-size: 14px;
+  }
+  .home-page .main-content h2 {
+    font-size: 12px;
+  }
+}
+
+/* Harian Page Styles */
+.harian-page * {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+.harian-page html,
+.harian-page body {
+  height: 100%;
+}
+.harian-page body {
+  font-family: "Press Start 2P", cursive;
+  color: #fff;
+  background: url("image/background.jpg") no-repeat center center fixed;
+  background-size: cover;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+.harian-page .stars {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+}
+.harian-page .star {
+  position: absolute;
+  width: 5px;
+  height: 5px;
+  background: rgba(205, 168, 5, 0.529);
+  border-radius: 50%;
+  animation: blink 2s infinite ease-in-out;
+}
+.harian-page .navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 30px;
+  background: rgba(10, 10, 40, 0.85);
+  position: fixed;
+  width: 100%;
+  top: 0;
+  z-index: 100;
+}
+.harian-page .nav-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.harian-page .nav-left img {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+}
+.harian-page .nav-title {
+  font-size: 12px;
+  background: #00aaff;
+  padding: 6px 14px;
+  border-radius: 20px;
+}
+.harian-page .nav-links {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+}
+.harian-page .nav-links a {
+  color: #fff;
+  text-decoration: none;
+  font-size: 11px;
+  transition: 0.3s;
+}
+.harian-page .nav-links a:hover,
+.harian-page .nav-links a.active {
+  color: #ffd700;
+  text-shadow: 0 0 10px #ffd700;
+}
+.harian-page .hamburger {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  cursor: pointer;
+}
+.harian-page .hamburger div {
+  width: 25px;
+  height: 3px;
+  background: #fff;
+}
+@media (max-width: 768px) {
+  .harian-page .nav-links {
+    display: none;
+    position: absolute;
+    top: 70px;
+    right: 0;
+    background: rgba(10, 10, 40, 0.95);
+    flex-direction: column;
+    width: 100%;
+    text-align: center;
+    padding: 15px 0;
+  }
+  .harian-page .nav-links.active {
+    display: flex;
+  }
+  .harian-page .hamburger {
+    display: flex;
+  }
+}
+.harian-page .intro {
+  margin-top: 120px;
+  text-align: center;
+  padding: 20px;
+}
+.harian-page .intro h1 {
+  font-size: 22px;
+  color: #00ff99;
+  text-shadow: 0 0 15px #00ff99, 0 0 25px #00ff99;
+  margin-bottom: 15px;
+  animation: glowPulse 2s infinite alternate;
+}
+@keyframes glowPulse {
+  from {
+    text-shadow: 0 0 10px #00ff99;
+  }
+  to {
+    text-shadow: 0 0 25px #00ff99;
+  }
+}
+.harian-page .intro p {
+  font-size: 12px;
+  color: #ffde59;
+  line-height: 1.6;
+  text-shadow: 0 0 6px rgba(255, 222, 89, 0.6);
+}
+.harian-page .container {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 50px;
+  flex-wrap: wrap;
+  margin-bottom: 40px;
+}
+.harian-page .bank,
+.harian-page .plate {
+  background: rgba(10, 10, 40, 0.8);
+  border: 3px solid #00ff51;
+  border-radius: 20px;
+  padding: 25px;
+  width: 320px;
+  min-height: 300px;
+  color: #fff;
+}
+.harian-page .bank h2,
+.harian-page .plate h2 {
+  color: #00ff51;
+  font-size: 12px;
+  margin-bottom: 15px;
+}
+.harian-page .food {
+  background: #ffeb99;
+  color: #000;
+  border-radius: 10px;
+  padding: 10px;
+  margin: 10px auto;
+  width: 200px;
+  cursor: grab;
+  font-size: 12px;
+}
+.harian-page .dropzone {
+  border: 3px dashed #00ff51;
+  border-radius: 10px;
+  min-height: 150px;
+  padding: 10px;
+  background: rgba(255, 255, 255, 0.05);
+  color: #fff;
+}
+.harian-page .hud {
+  margin-top: 15px;
+  color: #00ffff;
+  font-size: 10px;
+}
+.harian-page .btn {
+  background: #26ff00;
+  color: #fff;
+  border: none;
+  padding: 10px 18px;
+  border-radius: 10px;
+  cursor: pointer;
+  box-shadow: 0 0 12px #1eaa02;
+  font-family: "Press Start 2P", cursive;
+  font-size: 10px;
+  margin: 10px 5px;
+}
+.harian-page .btn.alt {
+  background: #ff9900;
+  box-shadow: 0 0 12px #ffae00;
+}
+.harian-page .popup {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0);
+  background: rgba(10, 10, 40, 0.95);
+  padding: 30px;
+  border: 4px solid #12cb0c;
+  border-radius: 20px;
+  text-align: center;
+  color: #fff;
+  z-index: 1000;
+  transition: transform 0.3s ease;
+}
+.harian-page .popup.show {
+  transform: translate(-50%, -50%) scale(1);
+}
+.harian-page .popup button {
+  background: #ffde59;
+  color: #000;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 10px;
+  cursor: pointer;
+  margin-top: 10px;
+  font-family: "Press Start 2P", cursive;
+}
+.harian-page .btn-home {
+  background: linear-gradient(45deg, #2fba00, #95ff00);
+  color: #fffbea;
+  padding: 12px 14px;
+  border-radius: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  font-size: 15px;
+  font-family: "Press Start 2P", cursive;
+  box-shadow: 0 0 20px rgba(94, 255, 0, 0.9);
+  position: fixed;
+  bottom: 20px;
+  right: 30px;
+  z-index: 1100;
+  transition: all 0.3s ease-in-out;
+  border: 2px solid #c2ffa3;
+  text-shadow: 0 0 5px #dfffc1;
+}
+.harian-page .btn-home:hover {
+  transform: scale(1.15) rotate(-3deg);
+  box-shadow: 0 0 30px #84ff00;
+}
+
+/* Ingat Page Styles */
+.ingat-page * {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+.ingat-page html,
+.ingat-page body {
+  height: 100%;
+}
+.ingat-page body {
+  font-family: "Press Start 2P", cursive;
+  background: url("image/background.jpg") no-repeat center center fixed;
+  background-size: cover;
+  color: #eafff0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.ingat-page .stars {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  overflow: hidden;
+}
+.ingat-page .star {
+  position: absolute;
+  width: 5px;
+  height: 5px;
+  background: rgba(205, 168, 5, 0.529);
+  border-radius: 50%;
+  animation: blink 2s infinite ease-in-out;
+}
+@keyframes blink {
+  0%,
+  100% {
+    opacity: 0.15;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+.ingat-page .navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 220;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 26px;
+  background: rgba(6, 6, 26, 0.78);
+  backdrop-filter: blur(4px);
+  border-bottom: 2px solid rgba(0, 255, 153, 0.06);
+}
+.ingat-page .nav-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.ingat-page .nav-left img {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+.ingat-page .nav-title {
+  font-size: 12px;
+  background: #00aaff;
+  padding: 6px 14px;
+  border-radius: 20px;
+  white-space: nowrap;
+}
+.ingat-page .nav-links {
+  display: flex;
+  gap: 18px;
+}
+.ingat-page .nav-links a {
+  color: #fff;
+  text-decoration: none;
+  font-size: 11px;
+}
+.ingat-page .nav-links a:hover,
+.ingat-page .nav-links a.active {
+  color: #ffd700;
+  text-shadow: 0 0 10px #ffd700;
+}
+.ingat-page .hamburger {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  cursor: pointer;
+}
+.ingat-page .hamburger div {
+  width: 26px;
+  height: 3px;
+  background: #fff;
+  border-radius: 3px;
+}
+.ingat-page .preview-msg {
+  position: fixed;
+  top: 80px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0, 0, 0, 0.981);
+  color: #bfffb9;
+  font-size: 12px;
+  padding: 10px 18px;
+  border-radius: 10px;
+  border: 1px solid rgba(0, 255, 153, 0.2);
+  box-shadow: 0 0 18px rgba(0, 255, 153, 0.12);
+  z-index: 100;
+  display: none;
+  text-align: center;
+  animation: fadeInOut 10s ease forwards;
+}
+@keyframes fadeInOut {
+  0% {
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+@media (max-width: 768px) {
+  .ingat-page .nav-links {
+    display: none;
+    position: absolute;
+    top: 68px;
+    right: 0;
+    background: rgba(6, 6, 26, 0.96);
+    flex-direction: column;
+    width: 100%;
+    text-align: center;
+    padding: 14px 0;
+  }
+  .ingat-page .nav-links.active {
+    display: flex;
+  }
+  .ingat-page .hamburger {
+    display: flex;
+  }
+}
+.ingat-page .btn-home {
+  background: linear-gradient(45deg, #2fba00, #95ff00);
+  color: #fffbea;
+  padding: 12px 14px;
+  border-radius: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  font-size: 15px;
+  font-family: "Press Start 2P", cursive;
+  box-shadow: 0 0 20px rgba(94, 255, 0, 0.9);
+  position: fixed;
+  bottom: 20px;
+  right: 30px;
+  z-index: 1100;
+  transition: all 0.3s ease-in-out;
+  border: 2px solid #c2ffa3;
+  text-shadow: 0 0 5px #dfffc1;
+}
+.ingat-page .btn-home:hover {
+  transform: scale(1.15) rotate(-3deg);
+  box-shadow: 0 0 30px #84ff00;
+}
+.ingat-page main {
+  padding: 120px 14px 80px;
+  display: flex;
+  justify-content: center;
+}
+.ingat-page .panel {
+  width: 100%;
+  max-width: 980px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  align-items: center;
+}
+.ingat-page .hud {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-bottom: 6px;
+}
+.ingat-page .chip {
+  background: rgba(255, 255, 255, 0.03);
+  padding: 8px 12px;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.03);
+  font-size: 11px;
+  color: #dfffe6;
+}
+.ingat-page .timer {
+  font-size: 13px;
+  padding: 8px 12px;
+  border-radius: 10px;
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.35), rgba(4, 8, 12, 0.2));
+  border: 1px solid rgba(0, 255, 153, 0.08);
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.45);
+  color: #bfffb9;
+}
+.ingat-page .controls {
+  display: flex;
+  gap: 10px;
+}
+.ingat-page .btn {
+  padding: 8px 12px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  cursor: pointer;
+  font-size: 11px;
+  color: #eafff0;
+  font-family: "Press Start 2P", cursive;
+}
+.ingat-page .board-wrap {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+.ingat-page .board {
+  width: min(900px, 96%);
+  max-width: 900px;
+  padding: 20px;
+  border-radius: 14px;
+  border: 2px solid #00ff99;
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.3), rgba(3, 6, 10, 0.12));
+  border: 2px solid rgba(0, 255, 153, 0.06);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.6);
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  justify-items: center;
+}
+.ingat-page .card {
+  width: 100%;
+  max-width: 130px;
+  aspect-ratio: 1/1;
+  border-radius: 14px;
+  perspective: 900px;
+  cursor: pointer;
+  position: relative;
+}
+.ingat-page .card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  transition: transform 0.55s cubic-bezier(0.2, 0.9, 0.3, 1);
+}
+.ingat-page .card.flip .card-inner {
+  transform: rotateY(180deg);
+}
+.ingat-page .face {
+  position: absolute;
+  inset: 0;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backface-visibility: hidden;
+}
+.ingat-page .front {
+  background: linear-gradient(180deg, #02121f, #032029);
+  border: 2px solid rgba(0, 255, 153, 0.06);
+}
+.ingat-page .back {
+  transform: rotateY(180deg);
+  background: linear-gradient(
+    180deg,
+    rgba(0, 0, 0, 0.14),
+    rgba(4, 8, 12, 0.18)
+  );
+  border: 2px solid rgba(0, 255, 153, 0.08);
+  box-shadow: inset 0 2px 0 rgba(255, 255, 255, 0.02);
+}
+.ingat-page .front .dot {
+  width: 44%;
+  height: 44%;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.02);
+}
+.ingat-page .label {
+  color: #e8fff7;
+  font-size: 12px;
+  text-shadow: 0 0 8px rgba(0, 255, 153, 0.06);
+}
+.ingat-page .img-shape {
+  width: 80px;
+  height: 80px;
+  object-fit: contain;
+  filter: drop-shadow(0 0 10px rgba(0, 255, 153, 0.2));
+  border-radius: 8px;
+}
+.ingat-page .back .img-glow {
+  position: absolute;
+  inset: calc(50% - 48px) auto auto calc(50% - 48px);
+  width: 96px;
+  height: 96px;
+  border-radius: 12px;
+  pointer-events: none;
+  box-shadow: 0 0 26px rgba(0, 255, 153, 0.06);
+}
+.ingat-page .shape::after {
+  content: "";
+  position: absolute;
+  inset: -8px;
+  border-radius: 10px;
+  pointer-events: none;
+  box-shadow: 0 0 26px rgba(0, 255, 153, 0.06);
+}
+.ingat-page .half {
+  border-radius: 50%;
+  background: conic-gradient(#bfffb9 0deg 180deg, #063f2a 180deg 360deg);
+  box-shadow: 0 0 22px rgba(0, 255, 153, 0.12);
+}
+.ingat-page .third {
+  width: 78px;
+  height: 78px;
+  background: linear-gradient(
+    90deg,
+    #bfffb9 0% 33.333%,
+    rgba(255, 255, 255, 0.02) 33.333% 100%
+  );
+  border-radius: 6px;
+  box-shadow: 0 0 18px rgba(0, 255, 153, 0.09);
+}
+.ingat-page .two-third {
+  width: 78px;
+  height: 78px;
+  background: linear-gradient(
+    90deg,
+    #bfffb9 0% 66.666%,
+    rgba(255, 255, 255, 0.02) 66.666% 100%
+  );
+  border-radius: 6px;
+  box-shadow: 0 0 18px rgba(0, 255, 153, 0.09);
+}
+.ingat-page .threequarter {
+  border-radius: 50%;
+  background: conic-gradient(#bfffb9 0deg 270deg, #063f2a 270deg 360deg);
+  box-shadow: 0 0 22px rgba(0, 255, 153, 0.12);
+}
+.ingat-page .quarter {
+  border-radius: 50%;
+  background: conic-gradient(#bfffb9 0deg 90deg, #063f2a 90deg 360deg);
+  box-shadow: 0 0 22px rgba(0, 255, 153, 0.12);
+}
+.ingat-page .one-sixth {
+  border-radius: 50%;
+  background: conic-gradient(#bfffb9 0deg 60deg, #063f2a 60deg 360deg);
+  box-shadow: 0 0 22px rgba(0, 255, 153, 0.12);
+}
+.ingat-page .card.matched .back {
+  box-shadow: 0 12px 30px rgba(0, 255, 153, 0.18),
+    0 0 28px rgba(0, 255, 153, 0.12) inset;
+}
+.ingat-page .card.matched {
+  transform: scale(0.98);
+  pointer-events: none;
+  opacity: 0.95;
+}
+@keyframes shake {
+  10% {
+    transform: translateX(-6px);
+  }
+  30% {
+    transform: translateX(6px);
+  }
+  50% {
+    transform: translateX(-4px);
+  }
+  70% {
+    transform: translateX(4px);
+  }
+  90% {
+    transform: translateX(-2px);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+.ingat-page .card.wrong {
+  animation: shake 0.8s ease;
+}
+.ingat-page .overlay {
+  position: fixed;
+  inset: 0;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.66);
+  z-index: 800;
+}
+.ingat-page .overlay.show {
+  display: flex;
+}
+.ingat-page .modal {
+  background: linear-gradient(180deg, #02121f, #031a22);
+  padding: 18px;
+  border-radius: 12px;
+  border: 2px solid rgba(0, 255, 153, 0.08);
+  width: 320px;
+  color: #eafff0;
+  text-align: center;
+}
+.ingat-page .modal h2 {
+  color: #bfffb9;
+  margin-bottom: 6px;
+}
+.ingat-page .modal p {
+  font-size: 13px;
+  margin-bottom: 12px;
+}
+.ingat-page .modal .btn {
+  padding: 8px 12px;
+  border-radius: 8px;
+  background: #00a874;
+  border: none;
+  cursor: pointer;
+  color: #04120b;
+}
+@media (max-width: 920px) {
+  .ingat-page .board {
+    gap: 14px;
+    grid-template-columns: repeat(4, 1fr);
+    width: 92%;
+  }
+  .ingat-page .card {
+    max-width: 130px;
+  }
+}
+@media (max-width: 620px) {
+  .ingat-page .board {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    width: 94%;
+  }
+  .ingat-page .card {
+    max-width: 120px;
+  }
+}
+
+/* Latihan Page Styles */
+.latihan-page * {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+.latihan-page body {
+  font-family: "Press Start 2P", cursive;
+  background: url("image/background.jpg") no-repeat center center fixed;
+  background-size: cover;
+  color: white;
+  overflow: hidden;
+  height: 100vh;
+}
+.latihan-page .stars {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+}
+.latihan-page .star {
+  position: absolute;
+  width: 5px;
+  height: 5px;
+  background: rgba(205, 168, 5, 0.529);
+  border-radius: 50%;
+  animation: blink 2s infinite ease-in-out;
+}
+.latihan-page .navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 30px;
+  background: rgba(10, 10, 40, 0.85);
+  position: fixed;
+  width: 100%;
+  top: 0;
+  z-index: 100;
+}
+.latihan-page .nav-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.latihan-page .nav-left img {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+}
+.latihan-page .nav-title {
+  font-size: 12px;
+  background: #00aaff;
+  padding: 6px 14px;
+  border-radius: 20px;
+}
+.latihan-page .nav-links {
+  display: flex;
+  gap: 20px;
+}
+.latihan-page .nav-links a {
+  color: white;
+  text-decoration: none;
+  font-size: 11px;
+}
+.latihan-page .nav-links a:hover,
+.latihan-page .nav-links a.active {
+  color: #ffd700;
+  text-shadow: 0 0 10px #ffd700;
+}
+.latihan-page .hamburger {
+  display: none;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 24px;
+  height: 18px;
+  cursor: pointer;
+}
+.latihan-page .hamburger div {
+  background-color: white;
+  height: 3px;
+  border-radius: 2px;
+}
+.latihan-page .content {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding-top: 60px;
+}
+.latihan-page h1 {
+  color: #a5e2b9;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6);
+  font-size: 20px;
+  margin-bottom: 25px;
+}
+.latihan-page .section {
+  background: rgba(10, 10, 40, 0.75);
+  border-radius: 20px;
+  padding: 10px 20px 15px 20px;
+  margin: 10px 0;
+  width: 80%;
+  max-width: 700px;
+}
+.latihan-page .section h2 {
+  font-size: 12px;
+  color: #07dd4e;
+  margin-bottom: 10px;
+}
+.latihan-page .buttons {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.latihan-page .buttons button {
+  background-color: #2ecc70e0;
+  border: none;
+  padding: 12px 18px;
+  border-radius: 10px;
+  color: white;
+  font-size: 12px;
+  font-family: "Press Start 2P", cursive;
+  cursor: pointer;
+  box-shadow: 0 0 10px #2ecc71;
+  transition: 0.3s ease;
+}
+.latihan-page .buttons button:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 6px #16ff6f73, 0 0 60px #16ff6f7a;
+}
+@media (max-width: 768px) {
+  .latihan-page .hamburger {
+    display: flex;
+  }
+  .latihan-page .nav-links {
+    display: none;
+    flex-direction: column;
+    background: rgba(10, 10, 40, 0.95);
+    width: 100%;
+    position: absolute;
+    top: 65px;
+    left: 0;
+    text-align: center;
+    padding: 15px 0;
+    animation: slideDown 0.3s ease forwards;
+  }
+  .latihan-page .nav-links.show {
+    display: flex;
+  }
+  .latihan-page .nav-links a {
+    padding: 10px 0;
+    display: block;
+    font-size: 10px;
+  }
+  @keyframes slideDown {
+    from {
+      opacity: 0;
+      transform: translateY(-10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  .latihan-page h1 {
+    font-size: 14px;
+    margin-bottom: 20px;
+  }
+  .latihan-page .section {
+    width: 90%;
+    padding: 12px;
+  }
+  .latihan-page .buttons button {
+    width: 100%;
+    font-size: 10px;
+  }
+}
+@media (max-width: 480px) {
+  .latihan-page .nav-title {
+    font-size: 10px;
+    padding: 5px 10px;
+  }
+  .latihan-page .nav-left img {
+    width: 38px;
+    height: 38px;
+  }
+  .latihan-page .section h2 {
+    font-size: 10px;
+  }
+}
+
+/* Pelajaran Page Styles */
+.pelajaran-page * {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+.pelajaran-page body {
+  font-family: "Press Start 2P", cursive;
+  background: url("image/background.jpg") no-repeat center center fixed;
+  background-size: cover;
+  color: white;
+  overflow-x: hidden;
+  min-height: 100vh;
+}
+/* Stars animation */
+.pelajaran-page .stars {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+}
+.pelajaran-page .star {
+  position: absolute;
+  width: 5px;
+  height: 5px;
+  background: rgba(205, 168, 5, 0.529);
+  border-radius: 50%;
+  animation: blink 2s infinite ease-in-out;
+}
+/* === NAVBAR === */
+.pelajaran-page .navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 30px;
+  background: rgba(10, 10, 40, 0.85);
+  position: fixed;
+  width: 100%;
+  top: 0;
+  z-index: 100;
+}
+.pelajaran-page .nav-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.pelajaran-page .nav-left img {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+}
+.pelajaran-page .nav-title {
+  font-size: 12px;
+  background: #00aaff;
+  padding: 6px 14px;
+  border-radius: 20px;
+  white-space: nowrap;
+}
+.pelajaran-page .nav-links {
+  display: flex;
+  gap: 20px;
+}
+.pelajaran-page .nav-links a {
+  color: white;
+  text-decoration: none;
+  font-size: 11px;
+  white-space: nowrap;
+  transition: 0.3s;
+}
+.pelajaran-page .nav-links a:hover,
+.pelajaran-page .nav-links a.active {
+  color: #ffd700;
+  text-shadow: 0 0 10px #ffd700;
+}
+.pelajaran-page .hamburger {
+  display: none;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 24px;
+  height: 18px;
+  cursor: pointer;
+}
+.pelajaran-page .hamburger div {
+  background-color: white;
+  height: 3px;
+  border-radius: 2px;
+}
+/* === CONTENT === */
+.pelajaran-page .content {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding-top: 70px;
+}
+.pelajaran-page h1 {
+  color: #e7da8c;
+  font-size: 20px;
+  text-shadow: 0 0 10px #c7a900;
+  margin-bottom: 50px;
+}
+.pelajaran-page .buttons {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 25px;
+}
+.pelajaran-page .buttons a {
+  text-decoration: none;
+}
+.pelajaran-page .buttons button {
+  background-color: #ffcc33;
+  border: none;
+  padding: 20px 25px;
+  border-radius: 12px;
+  color: white;
+  font-size: 12px;
+  font-family: "Press Start 2P", cursive;
+  cursor: pointer;
+  box-shadow: 0 0 10px #ffcc33;
+  transition: 0.3s ease;
+}
+.pelajaran-page .buttons button:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 25px #ffe066;
+}
+/* === CHATBOT BUTTON === */
+.pelajaran-page #chatbot-btn {
+  position: fixed;
+  bottom: 25px;
+  right: 25px;
+  background: #4a90e2;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  font-size: 20px;
+  cursor: pointer;
+  box-shadow: 0 0 10px #4a90e2;
+  z-index: 200;
+}
+/* === CHATBOX === */
+.pelajaran-page #chat-box {
+  position: fixed;
+  bottom: 100px;
+  right: 25px;
+  width: 320px;
+  height: 400px;
+  background: white;
+  color: black;
+  border: 4px solid #333;
+  border-radius: 20px;
+  box-shadow: 6px 6px 0 #222;
+  display: none;
+  flex-direction: column;
+  overflow: hidden;
+  z-index: 300;
+}
+.pelajaran-page .chat-header {
+  background: #4a90e2;
+  color: white;
+  text-align: center;
+  padding: 10px;
+  font-size: 10px;
+}
+.pelajaran-page .chat-messages {
+  flex: 1;
+  overflow-y: auto;
+  padding: 10px;
+  font-size: 10px;
+}
+.pelajaran-page .message {
+  margin: 6px 0;
+  padding: 6px;
+  border-radius: 10px;
+  max-width: 80%;
+  line-height: 1.5;
+}
+.pelajaran-page .user {
+  background: #d1f7c4;
+  margin-left: auto;
+  text-align: right;
+}
+.pelajaran-page .bot {
+  background: #f0f0f0;
+  margin-right: auto;
+}
+.pelajaran-page .chat-input {
+  display: flex;
+  border-top: 2px solid #333;
+}
+.pelajaran-page .chat-input input {
+  flex: 1;
+  padding: 8px;
+  border: none;
+  font-family: inherit;
+  font-size: 10px;
+}
+.pelajaran-page .chat-input button {
+  background: #4a90e2;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  cursor: pointer;
+  font-size: 10px;
+}
+@media (max-width: 768px) {
+  .pelajaran-page .hamburger {
+    display: flex;
+  }
+  .pelajaran-page .nav-links {
+    display: none;
+    flex-direction: column;
+    background: rgba(10, 10, 40, 0.95);
+    width: 100%;
+    position: absolute;
+    top: 65px;
+    left: 0;
+    text-align: center;
+    padding: 15px 0;
+    animation: slideDown 0.3s ease forwards;
+  }
+  .pelajaran-page .nav-links.show {
+    display: flex;
+  }
+  .pelajaran-page .buttons {
+    grid-template-columns: 1fr;
+  }
+  .pelajaran-page h1 {
+    font-size: 14px;
+  }
+  .pelajaran-page .buttons button {
+    width: 230px;
+  }
+}
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

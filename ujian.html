@@ -1,0 +1,1032 @@
+<!doctype html>
+<html lang="ms">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Bijak Pecahan | Ujian PKSK</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      body {
+        font-family: "Press Start 2P", cursive;
+        background: url("image/background.jpg") no-repeat center center fixed;
+        background-size: cover;
+        overflow-y: auto;
+        overflow-x: hidden;
+        color: white;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+      }
+      .stars {
+        position: fixed;
+        width: 100%;
+        height: 100%;
+        background: transparent;
+        z-index: -1;
+        overflow: hidden;
+      }
+      .star {
+        position: absolute;
+        width: 5px;
+        height: 5px;
+        background: rgba(205, 168, 5, 0.529);
+        border-radius: 50%;
+        animation: blink 2s infinite ease-in-out;
+      }
+      @keyframes blink {
+        0%,
+        100% {
+          opacity: 0.2;
+        }
+        50% {
+          opacity: 1;
+        }
+      }
+
+      /* ===== common navbar + responsive hamburger styles (shared) ===== */
+      .navbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 15px 30px;
+        background: rgba(10, 10, 40, 0.85);
+        position: fixed;
+        width: 100%;
+        top: 0;
+        z-index: 100;
+        box-sizing: border-box;
+      }
+      .nav-left {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      .nav-left img {
+        width: 250px;
+        height: auto;
+        max-height: 80px;
+        display: block;
+      }
+      .nav-title {
+        font-size: 12px;
+        background: #00aaff;
+        padding: 6px 12px;
+        border-radius: 18px;
+        white-space: nowrap;
+      }
+      .hamburger {
+        display: none;
+        flex-direction: column;
+        gap: 5px;
+        width: 24px;
+        height: 18px;
+        cursor: pointer;
+      }
+      .hamburger div {
+        background-color: #fff;
+        height: 3px;
+        border-radius: 2px;
+      }
+      .nav-links {
+        display: flex;
+        gap: 20px;
+      }
+      .nav-links a {
+        color: #fff;
+        text-decoration: none;
+        font-size: 13px;
+      }
+      .nav-links a:hover,
+      .nav-links a.active {
+        color: #ffd700;
+        text-shadow: 0 0 8px #ffd700;
+      }
+
+      /* Mobile */
+      @media (max-width: 900px) {
+        .nav-left img {
+          width: 150px;
+          height: auto;
+          max-height: 45px;
+        }
+        .hamburger {
+          display: flex;
+        }
+        .nav-links {
+          display: none;
+        }
+        .nav-links.show {
+          display: flex;
+          flex-direction: column;
+          gap: 10px;
+          position: fixed;
+          top: 64px;
+          right: 12px;
+          background: rgba(10, 10, 40, 0.98);
+          padding: 12px;
+          border-radius: 10px;
+          width: calc(100% - 36px);
+          max-width: 360px;
+          box-shadow: 0 8px 30px rgba(0, 0, 0, 0.6);
+          z-index: 1200;
+        }
+      }
+      /* End common navbar styles */
+
+      .quiz-container {
+        flex-grow: 1; /* Allow container to take available space */
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-start;
+        padding: 110px 20px 20px; /* Adjust padding to avoid navbar and bottom elements */
+        text-align: center;
+        animation: fadeIn 1.8s ease-in-out;
+        width: 100%; /* Ensure it takes full width */
+      }
+      h1 {
+        font-size: 20px;
+        color: #00ff99;
+        text-shadow:
+          0 0 15px #00ff99,
+          0 0 30px #00ff99;
+        margin-bottom: 15px;
+        animation: glowPulse 2s infinite alternate;
+      }
+
+      @keyframes glowPulse {
+        from {
+          text-shadow: 0 0 10px #00ff99;
+        }
+        to {
+          text-shadow: 0 0 25px #00ff99;
+        }
+      }
+
+      /* Mobile responsive for H1 */
+      @media (max-width: 550px) {
+        h1 {
+          font-size: 16px;
+          margin-bottom: 20px;
+        }
+      }
+
+      @media (max-width: 400px) {
+        h1 {
+          font-size: 14px;
+          margin-bottom: 15px;
+        }
+      }
+
+      .question-box {
+        background: rgba(10, 10, 40, 0.8);
+        padding: 5px 25px;
+        border-radius: 20px;
+        width: 80%;
+        max-width: 650px;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+        animation: slideUp 0.6s ease;
+        transition: 0.6s ease;
+        margin-top: auto;
+        margin-bottom: auto;
+      }
+      .fade-out {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      .fade-in {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      .question {
+        font-size: 12px;
+        margin-bottom: 25px;
+        color: #fff;
+        line-height: 1.2;
+      }
+      .question img {
+        width: auto;
+        max-width: 100%;
+        max-height: 180px;
+        object-fit: contain;
+        margin-top: 10px;
+        border-radius: 12px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+      }
+      .options {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+      }
+      .option {
+        background: rgba(255, 255, 255, 0.1);
+        border: 2px solid #00ff99;
+        border-radius: 10px;
+        padding: 10px;
+        color: white;
+        cursor: pointer;
+        transition: 0.3s ease;
+        font-size: 10px;
+        word-break: break-word; /* Prevent long words from overflowing */
+      }
+      .option:hover {
+        background: #00ff99;
+        color: black;
+        transform: scale(1.05);
+        box-shadow: 0 0 15px #00ff99;
+      }
+      .option.correct {
+        background: #2ecc71;
+        border-color: #2ecc71;
+      }
+      .option.wrong {
+        background: #e74c3c;
+        border-color: #e74c3c;
+        animation: shake 0.4s;
+      }
+      @keyframes shake {
+        25% {
+          transform: translateX(-5px);
+        }
+        50% {
+          transform: translateX(5px);
+        }
+        75% {
+          transform: translateX(-5px);
+        }
+      }
+
+      @keyframes fadeInUp {
+        from {
+          opacity: 0;
+          transform: translateY(15px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      .next-btn {
+        margin-top: 25px;
+        background: #00ff1a;
+        color: white;
+        border: none;
+        padding: 10px 18px;
+        border-radius: 10px;
+        cursor: pointer;
+        font-family: "Press Start 2P", cursive;
+        font-size: 10px;
+        opacity: 0;
+        transform: translateY(10px);
+        transition: all 0.4s ease;
+        box-shadow: 0 0 15px #a2ff006a;
+        display: none;
+        border: 2px solid #c2ffa3;
+      }
+      .next-btn.show {
+        display: inline-block;
+        animation: fadeInUp 0.5s ease forwards;
+      }
+      .next-btn:hover {
+        transform: scale(1.05);
+        box-shadow: 0 0 15px #55ff00;
+      }
+
+      .score-float {
+        position: fixed;
+        top: 90px;
+        right: 40px;
+        color: #00ff99;
+        font-family: "Press Start 2P", cursive;
+        font-size: 12px;
+        opacity: 0;
+        pointer-events: none;
+        text-shadow:
+          0 0 10px #00ff99,
+          0 0 20px #00ff99;
+        transition:
+          opacity 0.1s,
+          transform 0.6s;
+        z-index: 999;
+      }
+      .score-float.active {
+        opacity: 1;
+        transform: translateY(-25px);
+      }
+
+      .btn-home {
+        background: linear-gradient(45deg, #2fba00, #95ff00);
+        color: #fffbea;
+        padding: 12px 14px;
+        border-radius: 15px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-decoration: none;
+        font-size: 20px;
+        font-family: "Press Start 2P", cursive;
+        box-shadow: 0 0 20px rgba(94, 255, 0, 0.9);
+        position: fixed;
+        bottom: 20px;
+        right: 30px;
+        z-index: 1100;
+        transition: all 0.3s ease-in-out;
+        border: 2px solid #c2ffa3;
+        text-shadow: 0 0 5px #dfffc1;
+      }
+      .btn-home::before {
+        content: attr(data-tooltip);
+        position: absolute;
+        bottom: 100%;
+        right: 0;
+        background: rgba(0, 0, 0, 0.9);
+        color: #ffd700;
+        padding: 6px 10px;
+        border-radius: 8px;
+        white-space: nowrap;
+        font-size: 10px;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.28s ease;
+        margin-bottom: 10px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+
+        /* OPTIONAL (better readability) */
+        font-family: Arial, sans-serif;
+      }
+
+      .btn-home:hover::before {
+        opacity: 1;
+      }
+      .btn-home:hover {
+        transform: scale(1.15) rotate(-3deg);
+        box-shadow: 0 0 30px #84ff00;
+      }
+
+      .popup {
+        display: none;
+        justify-content: center;
+        align-items: center;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.385);
+        z-index: 1000;
+        animation: fadeIn 0.5s ease;
+        pointer-events: none;
+      }
+      .popup-content {
+        background: rgba(10, 10, 40, 0.9);
+        border: 2px solid #00ff99;
+        border-radius: 20px;
+        padding: 30px 25px;
+        text-align: center;
+        color: white;
+        width: 80%;
+        max-width: 400px;
+        box-shadow: 0 0 25px #00ff99;
+        animation: slideUp 0.6s ease;
+        pointer-events: auto;
+      }
+      .popup-content h2 {
+        color: #00ff99;
+        font-size: 16px;
+        margin-bottom: 15px;
+        text-shadow: 0 0 10px #00ff99;
+      }
+      .popup-content p {
+        font-size: 12px;
+        margin-bottom: 20px;
+      }
+      .popup-content button {
+        background: #00aaff;
+        color: white;
+        border: none;
+        border-radius: 10px;
+        padding: 10px 18px;
+        font-family: "Press Start 2P", cursive;
+        font-size: 10px;
+        cursor: pointer;
+        box-shadow: 0 0 15px #00aaff;
+        transition:
+          transform 0.3s ease,
+          box-shadow 0.3s ease;
+      }
+      .popup-content button:hover {
+        transform: scale(1.05);
+        box-shadow: 0 0 25px #00ccff;
+      }
+
+      .hud {
+        position: fixed;
+        top: 140px;
+        right: 30px;
+        background: rgba(0, 20, 40, 0.9);
+        border: 2px solid #00ff99;
+        border-radius: 15px;
+        padding: 12px 20px;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        color: #fff;
+        font-family: "Press Start 2P", cursive;
+        font-size: 11px;
+        text-shadow: 0 0 6px #00ff99;
+        box-shadow: 0 0 15px rgba(0, 255, 153, 0.4);
+        z-index: 50;
+        transition: transform 0.3s ease;
+      }
+
+      .hud-item span {
+        color: #ffff66;
+        text-shadow: 0 0 10px #ffff66;
+      }
+
+      .hud:hover {
+        transform: scale(1.05);
+      }
+
+      /* Mobile responsive */
+      @media (max-width: 768px) {
+        .quiz-container {
+          height: auto;
+          padding-top: 10px;
+          padding-bottom: 60px;
+        }
+        .hud {
+          position: relative;
+          top: auto;
+          right: auto;
+          margin: 80px auto 10px auto;
+          display: flex;
+          flex-direction: row;
+          justify-content: space-around;
+          width: 95%;
+          max-width: 400px;
+          font-size: 7px;
+          padding: 6px 8px;
+        }
+        h1 {
+          font-size: 14px;
+          margin-bottom: 10px;
+        }
+        .question-box {
+          padding: 10px;
+          width: 95%;
+        }
+        .question {
+          font-size: 8.5px;
+          margin-bottom: 10px;
+          line-height: 1.4;
+        }
+        .question img {
+          max-height: 90px;
+          margin-top: 5px;
+        }
+        .options {
+          gap: 6px;
+        }
+        .option {
+          font-size: 7.5px;
+          padding: 6px;
+        }
+        .next-btn {
+          margin-top: 10px;
+          padding: 6px 12px;
+        }
+        .btn-home {
+          bottom: 10px;
+          right: 10px;
+          font-size: 14px;
+          padding: 8px 10px;
+          border-radius: 10px;
+        }
+      }
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
+      }
+      @keyframes slideUp {
+        from {
+          transform: translateY(40px);
+          opacity: 0;
+        }
+        to {
+          transform: translateY(0);
+          opacity: 1;
+        }
+      }
+      @keyframes glowPulse {
+        from {
+          text-shadow: 0 0 10px #00ff99;
+        }
+        to {
+          text-shadow: 0 0 25px #00ff99;
+        }
+      }
+      .popup-intro {
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.303);
+        backdrop-filter: blur(2px);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 2000; /* lebih tinggi dari popup biasa */
+        transition: opacity 1.6s ease;
+      }
+
+      .popup-intro-content {
+        background: linear-gradient(145deg, #020a38, #102286);
+        color: #fff;
+        font-family: "Press Start 2P", cursive;
+        text-align: center;
+        padding: 35px;
+        border-radius: 25px;
+        box-shadow: 0 0 25px rgba(255, 255, 255, 0.4);
+        width: 85%;
+        max-width: 600px;
+        transform: scale(0);
+        animation: introZoom 0.8s ease forwards;
+        border: 3px solid #8cff00;
+      }
+
+      @keyframes introZoom {
+        0% {
+          transform: scale(0);
+          opacity: 0;
+        }
+        70% {
+          transform: scale(1.1);
+          opacity: 1;
+        }
+        100% {
+          transform: scale(1);
+        }
+      }
+
+      .popup-intro-content h2 {
+        font-size: 16px;
+        margin-bottom: 25px;
+        color: #80ff00;
+        text-shadow: 2px 2px #000;
+      }
+
+      .popup-intro-content p {
+        font-size: 12px;
+        line-height: 1.8;
+        color: #f4f4f4;
+      }
+
+      .btn-start {
+        background: linear-gradient(90deg, #a6ff00, #b7ff00);
+        border: none;
+        border-radius: 12px;
+        color: #000;
+        padding: 15px 25px;
+        margin-top: 20px;
+        font-size: 12px;
+        font-family: "Press Start 2P", cursive;
+        cursor: pointer;
+        box-shadow: 0 0 15px #3bdd00;
+        transition: all 0.3s ease;
+      }
+
+      .btn-start:hover {
+        transform: scale(1.1);
+        box-shadow: 0 0 30px #7bff00;
+        background: linear-gradient(90deg, #b3ff66, #1eff00);
+      }
+
+      @media (max-width: 480px) {
+        .popup-intro-content {
+          padding: 25px;
+          font-size: 10px;
+        }
+
+        .btn-start {
+          padding: 12px 18px;
+          font-size: 10px;
+        }
+      }
+
+      /* ========================================= */
+      /* Responsive Adjustments for Smaller Screens */
+      /* ========================================= */
+
+      @media (max-width: 550px) {
+        .score-float {
+          top: 80px;
+          right: 20px;
+          font-size: 10px;
+        }
+        .btn-home {
+          font-size: 12px;
+          padding: 10px 12px;
+          bottom: 15px;
+          right: 15px;
+        }
+        .popup-content h2 {
+          font-size: 14px;
+        }
+        .popup-content p {
+          font-size: 10px;
+        }
+        .popup-content button {
+          font-size: 9px;
+          padding: 8px 15px;
+        }
+      }
+
+      @media (max-width: 400px) {
+        .navbar {
+          padding: 8px 15px;
+        }
+        .nav-left img {
+          width: 100px;
+          height: auto;
+          max-height: 35px;
+        }
+        .nav-title {
+          font-size: 9px;
+          padding: 4px 8px;
+        }
+        .score-float {
+          top: 70px;
+          right: 15px;
+          font-size: 9px;
+        }
+        .btn-home {
+          font-size: 10px;
+          padding: 8px 10px;
+          bottom: 10px;
+          right: 10px;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="stars" id="stars"></div>
+    <!-- replace existing navbar with unified markup -->
+    <div class="navbar">
+      <div class="nav-left">
+        <img src="image/newLogo.png" alt="Logo" />
+      </div>
+
+      <div class="hamburger" id="hamburger" aria-label="Buka menu">
+        <div></div>
+        <div></div>
+        <div></div>
+      </div>
+
+      <nav class="nav-links" id="navLinks" aria-label="Navigasi utama">
+        <a href="index.html">🏠 HALAMAN UTAMA</a>
+        <a href="pelajaran.html">✏️ PELAJARAN</a>
+        <a href="latihan.html" class="active">🗒️ LATIHAN</a>
+      </nav>
+    </div>
+
+    <div class="hud">
+      <div class="hud-item">⭐ Skor: <span id="score">0</span></div>
+      <div class="hud-item">
+        🧠 Soalan: <span id="questionNum">1</span> / 10
+      </div>
+      <div class="hud-item">⏱️ Masa: <span id="timer">10:00</span></div>
+    </div>
+
+    <div id="score-float" class="score-float">+1</div>
+
+    <div class="quiz-container">
+      <h1>UJIAN PKSK</h1>
+      <div class="question-box fade-in" id="qbox">
+        <div id="question" class="question"></div>
+        <div id="options" class="options"></div>
+        <button class="next-btn" onclick="nextQuestion()">➜</button>
+      </div>
+    </div>
+
+    <a href="latihan.html" class="btn-home" data-tooltip="Halaman Latihan">
+      🏠
+    </a>
+    <div class="popup" id="popup">
+      <div class="popup-content">
+        <h2 id="popupTitle">🎉 Tahniah!</h2>
+        <p id="popupMsg"></p>
+        <button onclick="location.href = 'ujian.html'">Cuba Lagi?</button>
+      </div>
+    </div>
+
+    <script>
+      // 🌟 Bintang latar
+      const starsContainer = document.getElementById("stars");
+      for (let i = 0; i < 100; i++) {
+        const s = document.createElement("div");
+        s.classList.add("star");
+        s.style.left = Math.random() * 100 + "%";
+        s.style.top = Math.random() * 100 + "%";
+        s.style.animationDuration = 1 + Math.random() * 2 + "s";
+        starsContainer.appendChild(s);
+      }
+
+      // ☰ Navbar responsive
+      const hamburger = document.getElementById("hamburger");
+      const navLinks = document.getElementById("navLinks");
+      hamburger.onclick = () => navLinks.classList.toggle("active");
+
+      // 🔊 Bunyi
+      const soundCorrect = new Audio("sound/correctAnswer.wav");
+      const soundWrong = new Audio("sound/wrongAnswer.wav");
+      const soundPopup = new Audio("sound/showResult.mp3");
+
+      // 📘 Data soalan
+      const quizData = [
+        {
+          q: "Ali telah memakan 2/5 daripada sebiji kek. Baki kek tersebut dibahagikan sama rata kepada tiga kawannya. Berapa pecahan kek yang diterima oleh setiap seorang kawannya?",
+          opts: ["2/15", "3/5", "1/5", "1/3"],
+          a: "1/5",
+          img: "image/1.png",
+        },
+        {
+          q: "Dalam sebuah kelas, 3/8 daripada jumlah murid ialah murid lelaki. Jika jumlah murid ialah 40 orang, berapakah bilangan murid perempuan dalam kelas tersebut?",
+          opts: ["15", "25", "20", "30"],
+          a: "25",
+          img: "image/2.png",
+        },
+        {
+          q: "Sebuah bekas berisi penuh dengan 12 liter air. Amin telah meminum 2/3 daripada jumlah air tersebut. Berapakah liter air yang masih tinggal dalam bekas itu?",
+          opts: ["6", "8", "4", "12"],
+          a: "4",
+          img: "image/3.png",
+        },
+        {
+          q: "Farah telah membaca 3/7 daripada sebuah buku pada hari pertama dan 2/7 pada hari kedua. Berapakah pecahan buku yang masih belum dibaca oleh Farah?",
+          opts: ["2/7", "5/7", "3/7", "1/7"],
+          a: "2/7",
+          img: "image/4.png",
+        },
+        {
+          q: "Sebiji piza dipotong kepada 12 bahagian sama besar. Hakim telah makan 1/4 daripada piza itu manakala Laila telah makan 1/3 daripada piza tersebut. Berapakah bilangan bahagian piza yang masih tinggal?",
+          opts: ["5", "3", "7", "4"],
+          a: "5",
+          img: "image/5.png",
+        },
+        {
+          q: "Nisbah umur Aiman kepada Haziq ialah 2 : 3. Jika jumlah umur mereka ialah 25 tahun, berapakah umur Haziq?",
+          opts: ["10", "15", "20", "12"],
+          a: "15",
+          img: "image/6.png",
+        },
+        {
+          q: "Sebuah kotak mengandungi 60 biji gula-gula. 1/4 daripadanya ialah perisa strawberi, 1/3 daripadanya ialah perisa anggur, manakala selebihnya ialah perisa oren. Berapakah bilangan gula-gula perisa oren dalam kotak itu?",
+          opts: ["25", "30", "20", "15"],
+          a: "25",
+          img: "image/7.png",
+        },
+        {
+          q: "Ahmad telah menamatkan 3/4 daripada perlumbaan sejauh 20 km. Berapakah jarak (dalam kilometer) yang masih belum ditempuh oleh Ahmad?",
+          opts: ["15 km", "10 km", "5 km", "12 km"],
+          a: "5 km",
+          img: "image/8.png",
+        },
+        {
+          q: "Aida telah membeli 5 meter kain.3/10 daripada kain tersebut digunakan untuk membuat langsir dan 1/2 digunakan untuk membuat baju. Berapakah baki kain yang masih tinggal?",
+          opts: ["1.5 m", "2 m", "2.5 m", "1 m"],
+          a: "1 m",
+          img: "image/9.png",
+        },
+        {
+          q: "Sebuah tangki boleh menampung 48 liter air. Pada masa ini, tangki tersebut telah berisi 5/8 ada kapasiti penuhnya. Berapakah liter air lagi diperlukan untuk mengisi tangki itu sehingga penuh?",
+          opts: ["18 L", "20 L", "15 L", "12 L"],
+          a: "18 L",
+          img: "image/10.png",
+        },
+      ];
+      let currentQuestion = 0,
+        correctAnswers = 0,
+        quizStarted = false,
+        timerInterval; // 🔹 simpan ID setInterval
+
+      const scoreEl = document.getElementById("score");
+      const questionNum = document.getElementById("questionNum");
+      const questionEl = document.getElementById("question");
+      const optionsEl = document.getElementById("options");
+      const nextBtn = document.querySelector(".next-btn");
+      const popup = document.getElementById("popup");
+      const popupTitle = document.getElementById("popupTitle");
+      const popupMsg = document.getElementById("popupMsg");
+      const qbox = document.getElementById("qbox");
+      const timerEl = document.getElementById("timer");
+      const scoreFloat = document.getElementById("score-float");
+
+      // 🕒 Timer (tak mula automatik)
+      let timeLeft = 600; // 10 minit
+
+      function startTimer() {
+        timerInterval = setInterval(() => {
+          const min = Math.floor(timeLeft / 60);
+          const sec = timeLeft % 60;
+          timerEl.textContent = `${min.toString().padStart(2, "0")}:${sec
+            .toString()
+            .padStart(2, "0")}`;
+          timeLeft--;
+
+          if (timeLeft < 0) {
+            clearInterval(timerInterval);
+            showResult("⏰ Masa anda telah habis!");
+          }
+        }, 1000);
+      }
+
+      function showQuestion() {
+        const q = quizData[currentQuestion];
+        questionEl.innerHTML = `
+      <div style="text-align:center;">
+        <div style="margin-bottom:15px;">${q.q}</div>
+        <img src="${q.img}" alt="Gambar Soalan" 
+          style="width:100%;max-width:400px;height:auto;margin-top:10px;
+          border-radius:12px;box-shadow:0 0 10px rgba(0,0,0,0.3);">
+      </div>`;
+        optionsEl.innerHTML = "";
+        q.opts.forEach((opt) => {
+          const btn = document.createElement("div");
+          btn.classList.add("option");
+          btn.textContent = opt;
+          btn.onclick = () => checkAnswer(opt, btn);
+          optionsEl.appendChild(btn);
+        });
+        questionNum.textContent = currentQuestion + 1;
+      }
+
+      function checkAnswer(selected, btn) {
+        const q = quizData[currentQuestion];
+        const all = document.querySelectorAll(".option");
+        all.forEach((o) => (o.style.pointerEvents = "none"));
+
+        if (selected === q.a) {
+          btn.classList.add("correct");
+          correctAnswers++;
+          scoreEl.textContent = correctAnswers;
+          soundCorrect.play();
+          scoreFloat.classList.add("active");
+          setTimeout(() => scoreFloat.classList.remove("active"), 600);
+        } else {
+          btn.classList.add("wrong");
+          soundWrong.play();
+          all.forEach((o) => {
+            if (o.textContent === q.a) o.classList.add("correct");
+          });
+        }
+
+        setTimeout(() => {
+          currentQuestion++;
+          if (currentQuestion < quizData.length) {
+            showQuestion();
+          } else {
+            clearInterval(timerInterval);
+            showResult(
+              `Anda menjawab ${correctAnswers} betul daripada ${quizData.length} soalan.`,
+            );
+          }
+        }, 1500);
+      }
+
+      function nextQuestion() {
+        nextBtn.classList.remove("show");
+        currentQuestion++;
+        if (currentQuestion < quizData.length) {
+          qbox.classList.add("fade-out");
+          setTimeout(() => {
+            qbox.classList.remove("fade-out");
+            qbox.classList.add("fade-in");
+            showQuestion();
+          }, 400);
+        } else {
+          clearInterval(timerInterval);
+          showResult(
+            `Anda menjawab ${correctAnswers} daripada ${quizData.length} soalan.`,
+          );
+        }
+      }
+
+      function showResult(msg) {
+        popup.style.display = "flex";
+        popupTitle.textContent = "📊 Keputusan Kuiz";
+        popupMsg.textContent = msg;
+        soundPopup.play();
+      }
+
+      // 🔘 Fungsi mula kuiz (timer mula bila tekan)
+      function startQuiz() {
+        if (quizStarted) return;
+        quizStarted = true;
+
+        const popupIntro = document.getElementById("popupIntro");
+        popupIntro.style.opacity = "0";
+        setTimeout(() => {
+          popupIntro.style.display = "none";
+          startTimer(); // mula timer bila tekan
+          showQuestion(); // mula kuiz
+        }, 600);
+      }
+
+      // Jangan auto start apa-apa
+
+      // shared hamburger/script helper (append near end of body)
+      (function () {
+        const hamburger = document.getElementById("hamburger");
+        const navLinks = document.getElementById("navLinks");
+        if (hamburger && navLinks) {
+          hamburger.addEventListener("click", (e) => {
+            e.stopPropagation();
+            navLinks.classList.toggle("show");
+          });
+          navLinks
+            .querySelectorAll("a")
+            .forEach((a) =>
+              a.addEventListener("click", () =>
+                navLinks.classList.remove("show"),
+              ),
+            );
+          document.addEventListener("click", (e) => {
+            if (!navLinks.contains(e.target) && !hamburger.contains(e.target))
+              navLinks.classList.remove("show");
+          });
+          document.addEventListener("keydown", (e) => {
+            if (e.key === "Escape") navLinks.classList.remove("show");
+          });
+        }
+      })();
+    </script>
+    <!-- 🔊 Hover sound effect (plays when hovering over options only) -->
+    <audio id="hoverSound" src="sound/hover.mp3" preload="auto"></audio>
+    <script>
+      (function () {
+        const hoverSoundEl = document.getElementById("hoverSound");
+        if (!hoverSoundEl) return;
+        hoverSoundEl.volume = 1;
+        let lastPlay = 0;
+
+        function playHover() {
+          const now = Date.now();
+          if (now - lastPlay < 100) return; // prevent rapid stutter
+          lastPlay = now;
+          try {
+            hoverSoundEl.currentTime = 0;
+            hoverSoundEl.play().catch(() => {});
+          } catch (e) {}
+        }
+
+        // 🎵 Play sound when hovering individual answer options
+        document.addEventListener("mouseover", (e) => {
+          if (e.target.classList.contains("option")) {
+            playHover();
+          }
+        });
+
+        // 🔓 Unlock audio on first user click/touch (needed for mobile browsers)
+        function unlockOnce() {
+          try {
+            hoverSoundEl.play().catch(() => {});
+          } catch (e) {}
+          document.removeEventListener("pointerdown", unlockOnce);
+        }
+        document.addEventListener("pointerdown", unlockOnce, {
+          once: true,
+          passive: true,
+        });
+      })();
+    </script>
+
+    <div class="popup-intro" id="popupIntro" style="display: flex">
+      <div class="popup-intro-content">
+        <h2>🧠 Selamat Datang ke Ujian Latihan!</h2>
+        <p>
+          ⚠️ <b>Makluman Penting:</b><br /><br />
+          Ujian ini <b>bukan soalan sebenar PKSK</b>.<br />
+          Ia disediakan untuk
+          <b>tujuan latihan dan ulang kaji</b> sahaja.<br /><br />
+          Sila jawab <b>kesemua 10 soalan</b> dalam tempoh
+          <b>10 minit</b>.<br /><br />
+          Tekan butang di bawah untuk mula!
+        </p>
+        <button onclick="startQuiz()" class="btn-start">🎮 Mula Ujian</button>
+      </div>
+    </div>
+  </body>
+</html>

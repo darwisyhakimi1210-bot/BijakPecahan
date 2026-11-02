@@ -1,0 +1,722 @@
+<!doctype html>
+<html lang="ms">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Bijak Pecahan | Soalan Aneka Pilihan</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      body {
+        font-family: "Press Start 2P", cursive;
+        background: url("image/background.jpg") no-repeat center center fixed;
+        background-size: cover;
+        overflow: hidden;
+        color: white;
+        height: 100vh;
+      }
+      .stars {
+        position: fixed;
+        width: 100%;
+        height: 100%;
+        background: transparent;
+        z-index: -1;
+        overflow: hidden;
+      }
+      .star {
+        position: absolute;
+        width: 5px;
+        height: 5px;
+        background: rgba(205, 168, 5, 0.529);
+        border-radius: 50%;
+        animation: blink 2s infinite ease-in-out;
+      }
+      @keyframes blink {
+        0%,
+        100% {
+          opacity: 0.2;
+        }
+        50% {
+          opacity: 1;
+        }
+      }
+
+      .navbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 15px 30px;
+        background: rgba(10, 10, 40, 0.85);
+        position: fixed;
+        width: 100%;
+        top: 0;
+        z-index: 100;
+      }
+      .nav-left {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      .nav-left img {
+        width: 250px;
+        height: auto;
+        max-height: 80px;
+        display: block;
+      }
+      .nav-title {
+        font-size: 12px;
+        background: #00aaff;
+        padding: 6px 14px;
+        border-radius: 20px;
+      }
+      .nav-links {
+        display: flex;
+        gap: 20px;
+      }
+      .nav-links a {
+        color: white;
+        text-decoration: none;
+        font-size: 13px;
+        transition: 0.3s;
+      }
+      .nav-links a:hover,
+      .nav-links a.active {
+        color: #ffd700;
+        text-shadow: 0 0 10px #ffd700;
+      }
+      .hamburger {
+        display: none;
+        flex-direction: column;
+        cursor: pointer;
+        gap: 5px;
+      }
+      .hamburger div {
+        width: 25px;
+        height: 3px;
+        background: white;
+        border-radius: 3px;
+        transition: 0.3s;
+      }
+      @media (max-width: 768px) {
+        .nav-left img {
+          width: 150px;
+          height: auto;
+          max-height: 45px;
+        }
+        .nav-links {
+          display: none;
+          position: absolute;
+          top: 70px;
+          right: 0;
+          background: rgba(10, 10, 40, 0.95);
+          flex-direction: column;
+          width: 100%;
+          text-align: center;
+          padding: 15px 0;
+        }
+        .nav-links.active {
+          display: flex;
+        }
+        .hamburger {
+          display: flex;
+        }
+      }
+
+      .quiz-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 90vh;
+        text-align: center;
+        padding-top: 100px;
+        animation: fadeIn 1s ease-in-out;
+      }
+      h1 {
+        font-size: 30px;
+        color: #00ff99;
+        text-shadow:
+          0 0 15px #00ff99,
+          0 0 30px #00ff99;
+        margin-bottom: 30px;
+        animation: glowPulse 2s infinite alternate;
+      }
+
+      .question-box {
+        background: rgba(10, 10, 40, 0.8);
+        padding: 20px 25px;
+        border-radius: 20px;
+        width: 90%;
+        max-width: 650px;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+        animation: slideUp 0.6s ease;
+        transition: 0.6s ease;
+      }
+      .fade-out {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      .fade-in {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      .question {
+        font-size: 15px;
+        margin-bottom: 25px;
+        color: #fff;
+        line-height: 1.6;
+      }
+      .options {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+      }
+      .option {
+        background: rgba(255, 255, 255, 0.1);
+        border: 2px solid #00ff99;
+        border-radius: 10px;
+        padding: 10px;
+        color: white;
+        cursor: pointer;
+        transition: 0.3s ease;
+        font-size: 14px;
+      }
+      .option:hover {
+        background: #00ff99;
+        color: black;
+        transform: scale(1.05);
+        box-shadow: 0 0 15px #00ff99;
+      }
+      .option.correct {
+        background: #2ecc71;
+        border-color: #2ecc71;
+      }
+      .option.wrong {
+        background: #e74c3c;
+        border-color: #e74c3c;
+        animation: shake 0.4s;
+      }
+      @keyframes shake {
+        25% {
+          transform: translateX(-5px);
+        }
+        50% {
+          transform: translateX(5px);
+        }
+        75% {
+          transform: translateX(-5px);
+        }
+      }
+
+      @keyframes fadeInUp {
+        from {
+          opacity: 0;
+          transform: translateY(15px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      .next-btn {
+        margin-top: 5px;
+        background: #00ff1a;
+        color: white;
+        border: none;
+        padding: 6px 18px;
+        border-radius: 10px;
+        cursor: pointer;
+        font-family: "Press Start 2P", cursive;
+        font-size: 10px;
+        opacity: 0;
+        transform: translateY(10px);
+        transition: all 0.4s ease;
+        box-shadow: 0 0 15px #a2ff006a;
+        display: none;
+        border: 2px solid #c2ffa3;
+      }
+      .next-btn.show {
+        display: inline-block;
+        animation: fadeInUp 0.5s ease forwards;
+      }
+      .next-btn:hover {
+        transform: scale(1.05);
+        box-shadow: 0 0 15px #55ff00;
+      }
+
+      .score-float {
+        position: fixed;
+        top: 90px;
+        right: 40px;
+        color: #00ff99;
+        font-family: "Press Start 2P", cursive;
+        font-size: 12px;
+        opacity: 0;
+        pointer-events: none;
+        text-shadow:
+          0 0 10px #00ff99,
+          0 0 20px #00ff99;
+        transition:
+          opacity 0.1s,
+          transform 0.6s;
+        z-index: 999;
+      }
+      .score-float.active {
+        opacity: 1;
+        transform: translateY(-25px);
+      }
+
+      .btn-home {
+        background: linear-gradient(45deg, #2fba00, #95ff00);
+        color: #fffbea;
+        padding: 12px 14px;
+        border-radius: 15px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-decoration: none;
+        font-size: 20px;
+        font-family: "Press Start 2P", cursive;
+        box-shadow: 0 0 20px rgba(94, 255, 0, 0.9);
+        position: fixed;
+        bottom: 20px;
+        right: 30px;
+        z-index: 1100;
+        transition: all 0.3s ease-in-out;
+        border: 2px solid #c2ffa3;
+        text-shadow: 0 0 5px #dfffc1;
+      }
+      .btn-home::before {
+        content: attr(data-tooltip);
+        position: absolute;
+        bottom: 100%;
+        right: 0;
+        background: rgba(0, 0, 0, 0.9);
+        color: #ffd700;
+        padding: 6px 10px;
+        border-radius: 8px;
+        white-space: nowrap;
+        font-size: 10px;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.28s ease;
+        margin-bottom: 10px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+
+        /* OPTIONAL (better readability) */
+        font-family: Arial, sans-serif;
+      }
+
+      .btn-home:hover::before {
+        opacity: 1;
+      }
+
+      .btn-home:hover {
+        transform: scale(1.15) rotate(-3deg);
+        box-shadow: 0 0 30px #84ff00;
+      }
+
+      .popup {
+        display: none;
+        justify-content: center;
+        align-items: center;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.385);
+        z-index: 1000;
+        animation: fadeIn 0.5s ease;
+        pointer-events: none;
+      }
+      .popup-content {
+        background: rgba(10, 10, 40, 0.9);
+        border: 2px solid #00ff99;
+        border-radius: 20px;
+        padding: 30px 25px;
+        text-align: center;
+        color: white;
+        width: 80%;
+        max-width: 400px;
+        box-shadow: 0 0 25px #00ff99;
+        animation: slideUp 0.6s ease;
+        pointer-events: auto;
+      }
+      .popup-content h2 {
+        color: #00ff99;
+        font-size: 16px;
+        margin-bottom: 15px;
+        text-shadow: 0 0 10px #00ff99;
+      }
+      .popup-content p {
+        font-size: 12px;
+        margin-bottom: 20px;
+      }
+      .popup-content button {
+        background: #00aaff;
+        color: white;
+        border: none;
+        border-radius: 10px;
+        padding: 10px 18px;
+        font-family: "Press Start 2P", cursive;
+        font-size: 10px;
+        cursor: pointer;
+        box-shadow: 0 0 15px #00aaff;
+        transition:
+          transform 0.3s ease,
+          box-shadow 0.3s ease;
+      }
+      .popup-content button:hover {
+        transform: scale(1.05);
+        box-shadow: 0 0 25px #00ccff;
+      }
+
+      .hud {
+        position: fixed;
+        top: 140px;
+        right: 30px;
+        background: rgba(0, 20, 40, 0.9);
+        border: 2px solid #00ff99;
+        border-radius: 15px;
+        padding: 12px 20px;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        color: #fff;
+        font-family: "Press Start 2P", cursive;
+        font-size: 11px;
+        text-shadow: 0 0 6px #00ff99;
+        box-shadow: 0 0 15px rgba(0, 255, 153, 0.4);
+        z-index: 50;
+        transition: transform 0.3s ease;
+      }
+      .hud-item span {
+        color: #ffff66;
+        text-shadow: 0 0 10px #ffff66;
+      }
+      .hud:hover {
+        transform: scale(1.05);
+      }
+
+      @media (max-width: 768px) {
+        .quiz-container {
+          height: auto;
+          padding-top: 10px;
+          padding-bottom: 60px;
+        }
+        .hud {
+          position: relative;
+          top: auto;
+          right: auto;
+          margin: 80px auto 15px auto;
+          display: flex;
+          flex-direction: row;
+          justify-content: space-around;
+          width: 90%;
+          max-width: 400px;
+          font-size: 8px;
+          padding: 8px 12px;
+        }
+        h1 {
+          font-size: 16px;
+          margin-bottom: 15px;
+        }
+        .question-box {
+          padding: 15px;
+          width: 95%;
+        }
+        .question {
+          font-size: 10px;
+          margin-bottom: 15px;
+        }
+        .option {
+          font-size: 9px;
+          padding: 8px;
+        }
+        .btn-home {
+          bottom: 10px;
+          right: 10px;
+          font-size: 14px;
+          padding: 8px 10px;
+          border-radius: 10px;
+        }
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
+      }
+      @keyframes slideUp {
+        from {
+          transform: translateY(40px);
+          opacity: 0;
+        }
+        to {
+          transform: translateY(0);
+          opacity: 1;
+        }
+      }
+      @keyframes glowPulse {
+        from {
+          text-shadow: 0 0 10px #00ff99;
+        }
+        to {
+          text-shadow: 0 0 25px #00ff99;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="stars" id="stars"></div>
+    <div class="navbar">
+      <div class="nav-left">
+        <img src="image/newLogo.png" alt="Logo" />
+      </div>
+      <div class="nav-links" id="navLinks">
+        <a href="index.html">🏠 HALAMAN UTAMA</a>
+        <a href="pelajaran.html">✏️ PELAJARAN</a>
+        <a href="latihan.html" class="active">🗒️ LATIHAN</a>
+      </div>
+      <div class="hamburger" id="hamburger">
+        <div></div>
+        <div></div>
+        <div></div>
+      </div>
+    </div>
+
+    <div class="hud">
+      <div class="hud-item">⭐ Skor: <span id="score">0</span></div>
+      <div class="hud-item">
+        🧠 Soalan: <span id="questionNum">1</span> / 10
+      </div>
+    </div>
+
+    <div id="score-float" class="score-float">+1</div>
+
+    <div class="quiz-container">
+      <h1>SOALAN ANEKA PILIHAN</h1>
+      <div class="question-box fade-in" id="qbox">
+        <div id="question" class="question"></div>
+        <div id="options" class="options"></div>
+        <button class="next-btn" onclick="nextQuestion()">➜</button>
+      </div>
+    </div>
+
+    <a href="latihan.html" class="btn-home" data-tooltip="Halaman Latihan">
+      🏠
+    </a>
+
+    <audio id="hoverSound" preload="auto" style="display: none">
+      <source src="sound/hover.mp3" type="audio/mpeg" />
+    </audio>
+
+    <div class="popup" id="popup">
+      <div class="popup-content">
+        <h2 id="popupTitle">🎉 Tahniah!</h2>
+        <p id="popupMsg"></p>
+        <button onclick="location.href = 'pilihan.html'">Cuba Lagi?</button>
+      </div>
+    </div>
+    <script>
+      (function () {
+        const hoverSoundEl = document.getElementById("hoverSound");
+        if (!hoverSoundEl) return;
+        hoverSoundEl.volume = 1;
+        let lastPlay = 0;
+
+        function playHover() {
+          const now = Date.now();
+          if (now - lastPlay < 100) return; // prevent rapid replay
+          lastPlay = now;
+          try {
+            hoverSoundEl.currentTime = 0;
+            hoverSoundEl.play().catch(() => {});
+          } catch (e) {}
+        }
+
+        // Play sound ONLY when hovering over individual .option buttons
+        document.addEventListener("mouseover", (e) => {
+          if (e.target.classList.contains("option")) {
+            playHover();
+          }
+        });
+
+        // Unlock audio on first click/touch (mobile browsers)
+        function unlockOnce() {
+          try {
+            hoverSoundEl.play().catch(() => {});
+          } catch (e) {}
+          document.removeEventListener("pointerdown", unlockOnce);
+        }
+        document.addEventListener("pointerdown", unlockOnce, {
+          once: true,
+          passive: true,
+        });
+      })();
+    </script>
+
+    <script>
+      // 🌟 Bintang latar
+      const starsContainer = document.getElementById("stars");
+      for (let i = 0; i < 100; i++) {
+        const s = document.createElement("div");
+        s.classList.add("star");
+        s.style.left = Math.random() * 100 + "%";
+        s.style.top = Math.random() * 100 + "%";
+        s.style.animationDuration = 1 + Math.random() * 2 + "s";
+        starsContainer.appendChild(s);
+      }
+
+      // ☰ Navbar responsive
+      const hamburger = document.getElementById("hamburger");
+      const navLinks = document.getElementById("navLinks");
+      hamburger.onclick = () => navLinks.classList.toggle("active");
+
+      // 🔊 Bunyi
+      const soundCorrect = new Audio("sound/correctAnswer.wav");
+      const soundWrong = new Audio("sound/wrongAnswer.wav");
+      const soundPopup = new Audio("sound/showResult.mp3");
+
+      // 📘 Data soalan
+      const quizData = [
+        {
+          question: "1. Tukarkan 3 1/2 kepada pecahan tak wajar",
+          options: ["7/2", "6/2", "3/6", "1/2"],
+          answer: 0,
+        },
+        {
+          question: "2. 2/5 x 3 1/2 = ",
+          options: ["1 2/5", "7/5", "5/7", "14/10"],
+          answer: 0,
+        },
+        {
+          question: "3. 1 1/3 x 1 1/2 = ",
+          options: ["12/3", "1 1/2", "2", "2 1/4"],
+          answer: 2,
+        },
+        {
+          question: "4. 3/4 + 1/4 =",
+          options: ["1", "4/4", "3", "2"],
+          answer: 1,
+        },
+        { question: "5. 2/3 × 3 =", options: ["2", "3", "6", "5"], answer: 0 },
+        {
+          question: "6. 5/6 ÷ 5 =",
+          options: ["1/6", "5/11", "5/36", "6/5"],
+          answer: 2,
+        },
+        {
+          question: "7. 2/5 daripada 20 ialah...",
+          options: ["4", "8", "10", "6"],
+          answer: 1,
+        },
+        { question: "8. 1/3 × 9 =", options: ["3", "6", "9", "1"], answer: 0 },
+        {
+          question: "9. 3/8 + 5/8 =",
+          options: ["1", "8/8", "0", "2"],
+          answer: 1,
+        },
+        {
+          question: "10. Pecahan tidak wajar ialah...",
+          options: ["5/4", "1/2", "3/5", "2/3"],
+          answer: 0,
+        },
+      ];
+
+      let currentQuestion = 0,
+        correctAnswers = 0;
+
+      const scoreEl = document.getElementById("score");
+      const questionNum = document.getElementById("questionNum");
+      const questionEl = document.getElementById("question");
+      const optionsEl = document.getElementById("options");
+      const nextBtn = document.querySelector(".next-btn");
+      const popup = document.getElementById("popup");
+      const popupTitle = document.getElementById("popupTitle");
+      const popupMsg = document.getElementById("popupMsg");
+      const qbox = document.getElementById("qbox");
+
+      function loadQuestion() {
+        const q = quizData[currentQuestion];
+        questionEl.textContent = q.question;
+        optionsEl.innerHTML = "";
+        q.options.forEach((opt, i) => {
+          const btn = document.createElement("div");
+          btn.classList.add("option");
+          btn.textContent = opt;
+          btn.onclick = () => selectOption(i, q.answer, btn);
+          optionsEl.appendChild(btn);
+        });
+        questionNum.textContent = currentQuestion + 1;
+        nextBtn.classList.remove("show");
+      }
+
+      function selectOption(selected, correct, button) {
+        const options = document.querySelectorAll(".option");
+        options.forEach((opt) => (opt.onclick = null));
+
+        if (selected === correct) {
+          button.classList.add("correct");
+          correctAnswers++;
+          scoreEl.textContent = correctAnswers;
+          showScoreFloat();
+          soundCorrect.play();
+        } else {
+          button.classList.add("wrong");
+          options[correct].classList.add("correct");
+          soundWrong.play();
+        }
+
+        nextBtn.classList.add("show");
+      }
+
+      function showScoreFloat() {
+        const float = document.getElementById("score-float");
+        float.classList.add("active");
+        setTimeout(() => float.classList.remove("active"), 600);
+      }
+
+      function nextQuestion() {
+        currentQuestion++;
+        if (currentQuestion < quizData.length) {
+          qbox.classList.add("fade-out");
+          setTimeout(() => {
+            qbox.classList.remove("fade-out");
+            qbox.classList.add("fade-in");
+            loadQuestion();
+          }, 400);
+        } else {
+          showResult();
+        }
+      }
+
+      function showResult() {
+        soundPopup.play();
+        popup.style.display = "flex";
+        if (correctAnswers >= 8) {
+          popupTitle.textContent = "🏆 Hebat!";
+          popupMsg.textContent = `Anda betul ${correctAnswers} / ${quizData.length}!`;
+        } else {
+          popupTitle.textContent = "Bagus Cuba Lagi!";
+          popupMsg.textContent = `Anda betul ${correctAnswers} / ${quizData.length}.`;
+        }
+      }
+
+      loadQuestion();
+    </script>
+  </body>
+</html>

@@ -1,0 +1,12 @@
+# Claude Code local settings (personal, not part of the website)
+.claude/
+
+# Local backup of the school textbook.
+# 617 MB > GitHub's 100 MB per-file hard limit, so it cannot be pushed.
+# The website uses the online AnyFlip flipbook instead (see README).
+image/bukuTeks.pdf
+
+# OS / editor junk
+Thumbs.db
+desktop.ini
+.DS_Store

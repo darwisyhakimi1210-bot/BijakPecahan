@@ -1,0 +1,943 @@
+<!doctype html>
+<html lang="ms">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Bijak Pecahan | Soalan Refleksi</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      body {
+        font-family: "Press Start 2P", cursive;
+        background: url("image/background.jpg") no-repeat center center fixed;
+        background-size: cover;
+        overflow: hidden;
+        color: white;
+        height: 100vh;
+      }
+      .stars {
+        position: fixed;
+        width: 100%;
+        height: 100%;
+        background: transparent;
+        z-index: -1;
+        overflow: hidden;
+      }
+      .star {
+        position: absolute;
+        width: 5px;
+        height: 5px;
+        background: rgba(205, 168, 5, 0.529);
+        border-radius: 50%;
+        animation: blink 2s infinite ease-in-out;
+      }
+      @keyframes blink {
+        0%,
+        100% {
+          opacity: 0.2;
+        }
+        50% {
+          opacity: 1;
+        }
+      }
+
+      /* ===== common navbar + responsive hamburger styles (shared) ===== */
+      .navbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 15px 30px;
+        background: rgba(10, 10, 40, 0.85);
+        position: fixed;
+        width: 100%;
+        top: 0;
+        z-index: 100;
+        box-sizing: border-box;
+      }
+      .nav-left {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      .nav-left img {
+        width: 250px;
+        height: auto;
+        max-height: 80px;
+        display: block;
+      }
+      .nav-title {
+        font-size: 12px;
+        background: #00aaff;
+        padding: 6px 12px;
+        border-radius: 18px;
+        white-space: nowrap;
+      }
+      .hamburger {
+        display: none;
+        flex-direction: column;
+        gap: 5px;
+        width: 24px;
+        height: 18px;
+        cursor: pointer;
+      }
+      .hamburger div {
+        background-color: #fff;
+        height: 3px;
+        border-radius: 2px;
+      }
+      .nav-links {
+        display: flex;
+        gap: 20px;
+        align-items: center;
+      }
+      .nav-links a {
+        color: #fff;
+        text-decoration: none;
+        font-size: 13px;
+      }
+      .nav-links a:hover,
+      .nav-links a.active {
+        color: #ffd700;
+        text-shadow: 0 0 8px #ffd700;
+      }
+
+      /* Mobile */
+      @media (max-width: 900px) {
+        .nav-left img {
+          width: 150px;
+          height: auto;
+          max-height: 45px;
+        }
+        .hamburger {
+          display: flex;
+        }
+        .nav-links {
+          display: none;
+        }
+        .nav-links.show {
+          display: flex;
+          flex-direction: column;
+          gap: 10px;
+          position: fixed;
+          top: 64px;
+          right: 12px;
+          background: rgba(10, 10, 40, 0.98);
+          padding: 12px;
+          border-radius: 10px;
+          width: calc(100% - 36px);
+          max-width: 360px;
+          box-shadow: 0 8px 30px rgba(0, 0, 0, 0.6);
+          z-index: 1200;
+        }
+      }
+      /* End common navbar styles */
+
+      .quiz-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+        text-align: center;
+        padding-top: 100px;
+        animation: fadeIn 1s ease-in-out;
+      }
+      h1 {
+        font-size: 30px;
+        color: #00ff99;
+        text-shadow:
+          0 0 15px #00ff99,
+          0 0 30px #00ff99;
+        margin-bottom: 25px;
+        animation: glowPulse 2s infinite alternate;
+      }
+
+      .question-box {
+        background: rgba(10, 10, 40, 0.8);
+        padding: 20px 20px;
+        border-radius: 20px;
+        width: 80%;
+        max-width: 650px;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+        animation: slideUp 0.6s ease;
+        transition: 0.6s ease;
+      }
+      .fade-out {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      .fade-in {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      .question {
+        font-size: 16px; /* sedikit lebih kecil */
+        margin-bottom: 25px; /* rapatkan jarak bawah */
+        color: #fff;
+        line-height: 1.2; /* rapatkan tinggi baris */
+        letter-spacing: 0.2px; /* kurangkan ruang antara huruf */
+        word-spacing: 1px; /* opsional kecilkan jarak perkataan */
+        text-align: justify;
+      }
+
+      @media (max-width: 768px) {
+        .question {
+          font-size: 14px;
+          line-height: 1.06;
+          margin-bottom: 8px;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .question {
+          font-size: 13px;
+          line-height: 1.04;
+          margin-bottom: 6px;
+        }
+      }
+
+      .options {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+      }
+      .option {
+        background: rgba(255, 255, 255, 0.1);
+        border: 2px solid #00ff99;
+        border-radius: 10px;
+        padding: 10px;
+        color: white;
+        cursor: pointer;
+        transition: 0.3s ease;
+        font-size: 15px;
+      }
+      .option:hover {
+        background: #00ff99;
+        color: black;
+        transform: scale(1.05);
+        box-shadow: 0 0 15px #00ff99;
+      }
+      .option.correct {
+        background: #2ecc71;
+        border-color: #2ecc71;
+      }
+      .option.wrong {
+        background: #e74c3c;
+        border-color: #e74c3c;
+        animation: shake 0.4s;
+      }
+      @keyframes shake {
+        25% {
+          transform: translateX(-5px);
+        }
+        50% {
+          transform: translateX(5px);
+        }
+        75% {
+          transform: translateX(-5px);
+        }
+      }
+
+      @keyframes fadeInUp {
+        from {
+          opacity: 0;
+          transform: translateY(15px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      .next-btn {
+        margin-top: 5px;
+        background: #00ff1a;
+        color: white;
+        border: none;
+        padding: 6px 18px;
+        border-radius: 10px;
+        cursor: pointer;
+        font-family: "Press Start 2P", cursive;
+        font-size: 10px;
+        opacity: 0;
+        transform: translateY(10px);
+        transition: all 0.4s ease;
+        box-shadow: 0 0 15px #a2ff006a;
+        display: none;
+        border: 2px solid #c2ffa3;
+      }
+      .next-btn.show {
+        display: inline-block;
+        animation: fadeInUp 0.5s ease forwards;
+      }
+      .next-btn:hover {
+        transform: scale(1.05);
+        box-shadow: 0 0 15px #55ff00;
+      }
+
+      .score-float {
+        position: fixed;
+        top: 90px;
+        right: 40px;
+        color: #00ff99;
+        font-family: "Press Start 2P", cursive;
+        font-size: 12px;
+        opacity: 0;
+        pointer-events: none;
+        text-shadow:
+          0 0 10px #00ff99,
+          0 0 20px #00ff99;
+        transition:
+          opacity 0.1s,
+          transform 0.6s;
+        z-index: 999;
+      }
+      .score-float.active {
+        opacity: 1;
+        transform: translateY(-25px);
+      }
+
+      .btn-home {
+        background: linear-gradient(45deg, #2fba00, #95ff00);
+        color: #fffbea;
+        padding: 12px 14px;
+        border-radius: 15px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-decoration: none;
+        font-size: 20px;
+        font-family: "Press Start 2P", cursive;
+        box-shadow: 0 0 20px rgba(94, 255, 0, 0.9);
+        position: fixed;
+        bottom: 20px;
+        right: 30px;
+        z-index: 1100;
+        transition: all 0.3s ease-in-out;
+        border: 2px solid #c2ffa3;
+        text-shadow: 0 0 5px #dfffc1;
+      }
+      .btn-home::before {
+        content: attr(data-tooltip);
+        position: absolute;
+        bottom: 100%;
+        right: 0;
+        background: rgba(0, 0, 0, 0.9);
+        color: #ffd700;
+        padding: 6px 10px;
+        border-radius: 8px;
+        white-space: nowrap;
+        font-size: 10px;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.28s ease;
+        margin-bottom: 10px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+
+        /* OPTIONAL (better readability) */
+        font-family: Arial, sans-serif;
+      }
+
+      .btn-home:hover::before {
+        opacity: 1;
+      }
+
+      .btn-home:hover {
+        transform: scale(1.15) rotate(-3deg);
+        box-shadow: 0 0 30px #84ff00;
+      }
+      .btn-home:hover {
+        transform: scale(1.15) rotate(-3deg);
+        box-shadow: 0 0 30px #84ff00;
+      }
+
+      .popup {
+        display: none;
+        justify-content: center;
+        align-items: center;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.385);
+        z-index: 1000;
+        animation: fadeIn 0.5s ease;
+        pointer-events: none;
+      }
+      .popup-content {
+        background: rgba(10, 10, 40, 0.9);
+        border: 2px solid #00ff99;
+        border-radius: 20px;
+        padding: 30px 25px;
+        text-align: center;
+        color: white;
+        width: 80%;
+        max-width: 400px;
+        box-shadow: 0 0 25px #00ff99;
+        animation: slideUp 0.6s ease;
+        pointer-events: auto;
+      }
+      .popup-content h2 {
+        color: #00ff99;
+        font-size: 16px;
+        margin-bottom: 15px;
+        text-shadow: 0 0 10px #00ff99;
+      }
+      .popup-content p {
+        font-size: 12px;
+        margin-bottom: 20px;
+      }
+      .popup-content button {
+        background: #00aaff;
+        color: white;
+        border: none;
+        border-radius: 10px;
+        padding: 10px 18px;
+        font-family: "Press Start 2P", cursive;
+        font-size: 10px;
+        cursor: pointer;
+        box-shadow: 0 0 15px #00aaff;
+        transition:
+          transform 0.3s ease,
+          box-shadow 0.3s ease;
+      }
+      .popup-content button:hover {
+        transform: scale(1.05);
+        box-shadow: 0 0 25px #00ccff;
+      }
+      .hud {
+        position: fixed;
+        top: 140px;
+        right: 30px;
+        background: rgba(0, 20, 40, 0.9);
+        border: 2px solid #00ff99;
+        border-radius: 15px;
+        padding: 12px 20px;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        color: #fff;
+        font-family: "Press Start 2P", cursive;
+        font-size: 11px;
+        text-shadow: 0 0 6px #00ff99;
+        box-shadow: 0 0 15px rgba(0, 255, 153, 0.4);
+        z-index: 50;
+        transition: transform 0.3s ease;
+      }
+      .hud-item span {
+        color: #ffff66;
+        text-shadow: 0 0 10px #ffff66;
+      }
+      .hud:hover {
+        transform: scale(1.05);
+      }
+      @media (max-width: 768px) {
+        .quiz-container {
+          height: auto;
+          padding-top: 10px;
+          padding-bottom: 60px;
+        }
+        .hud {
+          position: relative;
+          top: auto;
+          right: auto;
+          margin: 80px auto 15px auto;
+          display: flex;
+          flex-direction: row;
+          justify-content: space-around;
+          width: 90%;
+          max-width: 400px;
+          font-size: 8px;
+          padding: 8px 12px;
+        }
+        h1 {
+          font-size: 16px;
+          margin-bottom: 15px;
+        }
+        .question-box {
+          padding: 15px;
+          width: 95%;
+        }
+        .question {
+          font-size: 10px;
+          margin-bottom: 10px;
+        }
+        .option {
+          font-size: 9px;
+          padding: 8px;
+        }
+        .btn-home {
+          bottom: 10px;
+          right: 10px;
+          font-size: 14px;
+          padding: 8px 10px;
+          border-radius: 10px;
+        }
+      }
+      .tip-popup {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%) scale(0.8);
+        background: rgba(0, 0, 0, 0.85);
+        border: 2px solid #00ff99;
+        border-radius: 16px;
+        padding: 20px 25px;
+        color: #00ff99;
+        font-size: 13px;
+        text-align: center;
+        width: 270px;
+        display: none;
+        z-index: 2000;
+        animation: fadeIn 0.4s ease forwards;
+        box-shadow: 0 0 20px #00ff99;
+      }
+
+      .tip-content {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .tip-icon {
+        font-size: 22px;
+        margin-bottom: 8px;
+      }
+
+      #closeTip {
+        margin-top: 10px;
+        background: #00ff99;
+        border: none;
+        color: #000;
+        padding: 5px 15px;
+        border-radius: 8px;
+        cursor: pointer;
+        font-weight: bold;
+        font-family: "Press Start 2P", cursive;
+        font-size: 8px;
+        text-transform: uppercase;
+        box-shadow: 0 0 10px #00ff99;
+      }
+
+      #closeTip:hover {
+        background: #00ffaa;
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translate(-50%, -60%) scale(0.8);
+        }
+        to {
+          opacity: 1;
+          transform: translate(-50%, -50%) scale(1);
+        }
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
+      }
+      @keyframes slideUp {
+        from {
+          transform: translateY(40px);
+          opacity: 0;
+        }
+        to {
+          transform: translateY(0);
+          opacity: 1;
+        }
+      }
+      @keyframes glowPulse {
+        from {
+          text-shadow: 0 0 10px #00ff99;
+        }
+        to {
+          text-shadow: 0 0 25px #00ff99;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="stars" id="stars"></div>
+    <!-- replace existing navbar with unified markup -->
+    <div class="navbar">
+      <div class="nav-left">
+        <img src="image/newLogo.png" alt="Logo" />
+      </div>
+
+      <div class="hamburger" id="hamburger" aria-label="Buka menu">
+        <div></div>
+        <div></div>
+        <div></div>
+      </div>
+
+      <nav class="nav-links" id="navLinks" aria-label="Navigasi utama">
+        <a href="index.html">🏠 HALAMAN UTAMA</a>
+        <a href="pelajaran.html">✏️ PELAJARAN</a>
+        <a href="latihan.html" class="active">🗒️ LATIHAN</a>
+      </nav>
+    </div>
+
+    <div class="hud">
+      <div class="hud-item">⭐ Skor: <span id="score">0</span></div>
+      <div class="hud-item">
+        🧠 Soalan: <span id="questionNum">1</span> / 10
+      </div>
+    </div>
+
+    <div id="score-float" class="score-float">+1</div>
+
+    <div class="quiz-container">
+      <h1>SOALAN REFLEKSI</h1>
+      <div class="question-box fade-in" id="qbox">
+        <div id="question" class="question"></div>
+        <div id="options" class="options"></div>
+        <button class="next-btn" onclick="nextQuestion()">➜</button>
+      </div>
+    </div>
+    <a href="latihan.html" class="btn-home" data-tooltip="Halaman Latihan">
+      🏠
+    </a>
+    <div id="tipBox" class="tip-popup">
+      <div class="tip-content">
+        <span class="tip-icon">💡</span>
+        <p id="tipText"></p>
+        <button id="closeTip">Tutup</button>
+      </div>
+    </div>
+
+    <div class="popup" id="popup">
+      <div class="popup-content">
+        <h2 id="popupTitle">🎉 Tahniah!</h2>
+        <p id="popupMsg"></p>
+        <button onclick="location.href = 'refleksi.html'">Cuba Lagi?</button>
+      </div>
+    </div>
+
+    <script>
+      // 🌟 Bintang latar
+      const starsContainer = document.getElementById("stars");
+      for (let i = 0; i < 100; i++) {
+        const s = document.createElement("div");
+        s.classList.add("star");
+        s.style.left = Math.random() * 100 + "%";
+        s.style.top = Math.random() * 100 + "%";
+        s.style.animationDuration = 1 + Math.random() * 2 + "s";
+        starsContainer.appendChild(s);
+      }
+
+      // ☰ Navbar responsive
+      const hamburger = document.getElementById("hamburger");
+      const navLinks = document.getElementById("navLinks");
+      hamburger.onclick = () => navLinks.classList.toggle("active");
+
+      // 🔊 Bunyi
+      const soundCorrect = new Audio("sound/correctAnswer.wav");
+      const soundWrong = new Audio("sound/wrongAnswer.wav");
+      const soundPopup = new Audio("sound/showResult.mp3");
+
+      // 📘 Data soalan
+      const quizData = [
+        {
+          question:
+            "1. Ali makan 2/8 daripada sebiji piza. Fatimah menyatakan bahawa baki ialah 6/8, manakala Amir mengatakan baki ialah 3/4. Siapakah yang betul?",
+          options: [
+            "Fatimah sahaja",
+            "Amir sahaja",
+            "Kedua-duanya betul",
+            "Kedua-duanya salah",
+          ],
+          answer: 2,
+          explain: "6/8 boleh dipermudahkan kepada 3/4.",
+        },
+        {
+          question:
+            "2. Sebiji kek dipotong kepada 12 bahagian sama. Sara makan 3/12 daripada kek tersebut. Aiman menyatakan bahawa pecahan itu bersamaan 1/3, manakala Hani mengatakan 1/4. Siapakah yang betul?",
+          options: [
+            "Aiman",
+            "Hani",
+            "Kedua-duanya betul",
+            "Kedua-duanya salah",
+          ],
+          answer: 1,
+          explain: "3/12 = 1/4 selepas dipermudahkan.",
+        },
+        {
+          question:
+            "3. Sebotol air berisipadu 1 L. Farah minum 1/5 L daripada air tersebut. Guru menulis baki ialah 5/6 L. Adakah pernyataan guru itu betul?",
+          options: [
+            "Ya, betul",
+            "Tidak, baki ialah 4/5 L",
+            "Tidak, baki ialah 3/5 L",
+            "Tidak, baki ialah 2/5 L",
+          ],
+          answer: 1,
+          explain: "Baki = 1 - 1/5 = 4/5 L.",
+        },
+        {
+          question:
+            "4. Hakim mempunyai RM10. Beliau membelanjakan 3/5 daripada jumlah itu untuk membeli buku. Amir mengatakan baki ialah RM7, manakala Lina mengatakan baki ialah RM4. Siapakah yang betul?",
+          options: ["Amir", "Lina", "Kedua-duanya betul", "Kedua-duanya salah"],
+          answer: 1,
+          explain: "3/5 × 10 = 6 (belanja). Baki = 10 - 6 = 4.",
+        },
+        {
+          question:
+            "5. Guru menulis: “2/4 lebih besar daripada 3/4.” Penilaian yang manakah benar?",
+          options: [
+            "Betul, 2/4 lebih besar",
+            "Salah, 3/4 lebih besar",
+            "Salah, kedua-duanya sama",
+            "Tidak boleh dibanding",
+          ],
+          answer: 1,
+          explain: "Dengan penyebut sama, banding pengangka. 3 > 2.",
+        },
+        {
+          question:
+            "6. Seorang murid menukar 2 1/2 kepada pecahan tak wajar dan menulis 4/2. Apakah penilaian yang betul?",
+          options: [
+            "Betul",
+            "Salah, sepatutnya 5/2",
+            "Salah, sepatutnya 6/2",
+            "Salah, sepatutnya 3/2",
+          ],
+          answer: 1,
+          explain: "(2×2+1)/2 = 5/2.",
+        },
+        {
+          question:
+            "7. Empat orang kawan berkongsi 1 botol air. Setiap seorang minum 1/4 daripada botol itu. Amir menyatakan jumlah diminum ialah 1 botol, manakala Lina mengatakan 1/2 botol. Siapakah yang betul?",
+          options: [
+            "Amir betul",
+            "Lina betul",
+            "Kedua-duanya betul",
+            "Kedua-duanya salah",
+          ],
+          answer: 0,
+          explain: "1/4 + 1/4 + 1/4 + 1/4 = 1.",
+        },
+        {
+          question:
+            "8. Guru menulis: “1/2 + 1/3 = 2/5.” Apakah penilaian yang betul?",
+          options: [
+            "Betul",
+            "Salah, sepatutnya 5/6",
+            "Salah, sepatutnya 2/3",
+            "Salah, sepatutnya 3/5",
+          ],
+          answer: 1,
+          explain: "1/2 = 3/6, 1/3 = 2/6 → 5/6.",
+        },
+        {
+          question:
+            "9. Amira menyatakan 0.75 = 3/4, manakala Hakim mengatakan 0.75 = 2/3. Siapakah yang betul?",
+          options: [
+            "Amira sahaja",
+            "Hakim sahaja",
+            "Kedua-duanya betul",
+            "Kedua-duanya salah",
+          ],
+          answer: 0,
+          explain: "0.75 = 75/100 = 3/4.",
+        },
+        {
+          question:
+            "10. Separuh kawasan taman ditanam dengan bunga, manakala 1/4 ditanam dengan sayur. Baki kawasan ditanam dengan rumput. Aiman mengatakan rumput menutupi 1/4, manakala Sara mengatakan 1/2. Siapakah yang betul?",
+          options: [
+            "Aiman betul",
+            "Sara betul",
+            "Kedua-duanya betul",
+            "Kedua-duanya salah",
+          ],
+          answer: 0,
+          explain: "1 − (1/2 + 1/4) = 1/4.",
+        },
+      ];
+
+      let currentQuestion = 0,
+        correctAnswers = 0;
+
+      const scoreEl = document.getElementById("score");
+      const questionNum = document.getElementById("questionNum");
+      const questionEl = document.getElementById("question");
+      const optionsEl = document.getElementById("options");
+      const nextBtn = document.querySelector(".next-btn");
+      const popup = document.getElementById("popup");
+      const popupTitle = document.getElementById("popupTitle");
+      const popupMsg = document.getElementById("popupMsg");
+      const qbox = document.getElementById("qbox");
+
+      function loadQuestion() {
+        const q = quizData[currentQuestion];
+        questionEl.textContent = q.question;
+        optionsEl.innerHTML = "";
+        q.options.forEach((opt, i) => {
+          const btn = document.createElement("div");
+          btn.classList.add("option");
+          btn.textContent = opt;
+          btn.onclick = () => selectOption(i, q.answer, btn);
+          optionsEl.appendChild(btn);
+        });
+        questionNum.textContent = currentQuestion + 1;
+        nextBtn.classList.remove("show");
+      }
+
+      function selectOption(selected, correct, button) {
+        const options = document.querySelectorAll(".option");
+        options.forEach((opt) => (opt.onclick = null));
+
+        const q = quizData[currentQuestion];
+        const tipBox = document.getElementById("tipBox");
+        const tipText = document.getElementById("tipText");
+
+        if (selected === correct) {
+          button.classList.add("correct");
+          correctAnswers++;
+          scoreEl.textContent = correctAnswers;
+          showScoreFloat();
+          soundCorrect.play();
+        } else {
+          button.classList.add("wrong");
+          options[correct].classList.add("correct");
+          soundWrong.play();
+
+          // 💡 Paparkan tips hanya jika salah
+          tipText.textContent = q.explain;
+          tipBox.style.display = "block";
+        }
+
+        nextBtn.classList.add("show");
+      }
+
+      function showScoreFloat() {
+        const float = document.getElementById("score-float");
+        float.classList.add("active");
+        setTimeout(() => float.classList.remove("active"), 600);
+      }
+
+      function nextQuestion() {
+        currentQuestion++;
+        document.getElementById("tipBox").style.display = "none";
+
+        if (currentQuestion < quizData.length) {
+          qbox.classList.add("fade-out");
+          setTimeout(() => {
+            qbox.classList.remove("fade-out");
+            qbox.classList.add("fade-in");
+            loadQuestion();
+          }, 400);
+        } else {
+          showResult();
+        }
+      }
+
+      function showResult() {
+        soundPopup.play();
+        popup.style.display = "flex";
+        if (correctAnswers >= 8) {
+          popupTitle.textContent = "🏆 Hebat!";
+          popupMsg.textContent = `Anda betul ${correctAnswers} / ${quizData.length}!`;
+        } else {
+          popupTitle.textContent = "Bagus Cuba Lagi!";
+          popupMsg.textContent = `Anda betul ${correctAnswers} / ${quizData.length}.`;
+        }
+      }
+
+      loadQuestion();
+      // Tutup Tips bila tekan butang
+      document.getElementById("closeTip").addEventListener("click", () => {
+        document.getElementById("tipBox").style.display = "none";
+      });
+
+      // Hilangkan Tips bila tekan Next
+      function nextQuestion() {
+        document.getElementById("tipBox").style.display = "none";
+        if (currentQuestion < quizData.length - 1) {
+          currentQuestion++;
+          loadQuestion();
+        } else {
+          showResult();
+        }
+      }
+    </script>
+    <!-- shared hamburger/script helper (append near end of body) -->
+    <script>
+      (function () {
+        const hamburger = document.getElementById("hamburger");
+        const navLinks = document.getElementById("navLinks");
+        if (hamburger && navLinks) {
+          hamburger.addEventListener("click", (e) => {
+            e.stopPropagation();
+            navLinks.classList.toggle("show");
+          });
+          navLinks
+            .querySelectorAll("a")
+            .forEach((a) =>
+              a.addEventListener("click", () =>
+                navLinks.classList.remove("show"),
+              ),
+            );
+          document.addEventListener("click", (e) => {
+            if (!navLinks.contains(e.target) && !hamburger.contains(e.target))
+              navLinks.classList.remove("show");
+          });
+          document.addEventListener("keydown", (e) => {
+            if (e.key === "Escape") navLinks.classList.remove("show");
+          });
+        }
+      })();
+    </script>
+    <!-- 🔊 Hover sound effect (plays when hovering over options only) -->
+    <audio id="hoverSound" src="sound/hover.mp3" preload="auto"></audio>
+    <script>
+      (function () {
+        const hoverSoundEl = document.getElementById("hoverSound");
+        if (!hoverSoundEl) return;
+        hoverSoundEl.volume = 1;
+        let lastPlay = 0;
+
+        function playHover() {
+          const now = Date.now();
+          if (now - lastPlay < 100) return; // prevent stuttering
+          lastPlay = now;
+          try {
+            hoverSoundEl.currentTime = 0;
+            hoverSoundEl.play().catch(() => {});
+          } catch (e) {}
+        }
+
+        // Play sound when hovering individual .option buttons only
+        document.addEventListener("mouseover", (e) => {
+          if (e.target.classList.contains("option")) playHover();
+        });
+
+        // Unlock audio once (for mobile browsers)
+        function unlockOnce() {
+          try {
+            hoverSoundEl.play().catch(() => {});
+          } catch (e) {}
+          document.removeEventListener("pointerdown", unlockOnce);
+        }
+        document.addEventListener("pointerdown", unlockOnce, {
+          once: true,
+          passive: true,
+        });
+      })();
+    </script>
+  </body>
+</html>

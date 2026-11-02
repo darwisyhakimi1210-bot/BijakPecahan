@@ -1,0 +1,1155 @@
+<!doctype html>
+<html lang="ms">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Bijak Pecahan | Ingatan — 6 Pasang</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      body {
+        font-family: "Press Start 2P", cursive;
+        background: url("image/background.jpg") no-repeat center center fixed;
+        background-size: cover;
+        overflow-x: hidden; /* Prevent horizontal scroll on smaller screens */
+        color: white;
+        min-height: 100vh; /* Use min-height to allow content to expand */
+        display: flex; /* Use flexbox for body to manage overall layout */
+        flex-direction: column;
+      }
+      .stars {
+        position: fixed;
+        width: 100%;
+        height: 100%;
+        background: transparent;
+        z-index: -1;
+        overflow: hidden;
+      }
+      .star {
+        position: absolute;
+        width: 5px;
+        height: 5px;
+        background: rgba(205, 168, 5, 0.529);
+        border-radius: 50%;
+        animation: blink 2s infinite ease-in-out;
+      }
+      @keyframes blink {
+        0%,
+        100% {
+          opacity: 0.2;
+        }
+        50% {
+          opacity: 1;
+        }
+      }
+
+      .navbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 15px 30px;
+        background: rgba(10, 10, 40, 0.85);
+        position: fixed;
+        width: 100%;
+        top: 0;
+        z-index: 100;
+      }
+      .nav-left {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      .nav-left img {
+        width: 250px;
+        height: auto;
+        max-height: 80px;
+        display: block;
+      }
+      .nav-title {
+        font-size: 12px;
+        background: #00aaff;
+        padding: 6px 14px;
+        border-radius: 20px;
+      }
+      .nav-links {
+        display: flex;
+        gap: 20px;
+      }
+      .nav-links a {
+        color: white;
+        text-decoration: none;
+        font-size: 13px;
+        transition: 0.3s;
+      }
+      .nav-links a:hover,
+      .nav-links a.active {
+        color: #ffd700;
+        text-shadow: 0 0 10px #ffd700;
+      }
+      .hamburger {
+        display: none;
+        flex-direction: column;
+        cursor: pointer;
+        gap: 5px;
+      }
+      .hamburger div {
+        width: 25px;
+        height: 3px;
+        background: white;
+        border-radius: 3px;
+        transition: 0.3s;
+      }
+      @media (max-width: 768px) {
+        .nav-links {
+          display: none;
+          position: absolute;
+          top: 70px; /* Adjust based on navbar height */
+          right: 0;
+          background: rgba(10, 10, 40, 0.95);
+          flex-direction: column;
+          width: 100%;
+          text-align: center;
+          padding: 15px 0;
+          box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+        .nav-links.active {
+          display: flex;
+        }
+        .hamburger {
+          display: flex;
+        }
+        .nav-left img {
+          width: 35px;
+          height: 35px;
+        }
+        .nav-title {
+          font-size: 10px;
+          padding: 5px 10px;
+        }
+        .navbar {
+          padding: 10px 20px;
+        }
+      }
+      /* ===== Preview message (10s reminder) ===== */
+      .preview-msg {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translateX(-50%);
+        background: rgba(0, 0, 0, 0.362);
+        color: #ff6868;
+        font-size: 12px;
+        padding: 40px 20px;
+        border-radius: 10px;
+        border: 1px solid rgba(255, 0, 0, 0.2);
+        box-shadow: 0 0 18px rgba(0, 255, 153, 0.12);
+        z-index: 100;
+        display: none;
+        text-align: center;
+        animation: fadeInOut 10s ease forwards;
+      }
+
+      @keyframes fadeInOut {
+        0% {
+          opacity: 0;
+        }
+        10% {
+          opacity: 1;
+        }
+        90% {
+          opacity: 1;
+        }
+        100% {
+          opacity: 0;
+        }
+      }
+
+      @media (max-width: 768px) {
+        .nav-left img {
+          width: 150px;
+          height: auto;
+          max-height: 45px;
+        }
+        .nav-links {
+          display: none;
+          position: absolute;
+          top: 68px;
+          right: 0;
+          background: rgba(6, 6, 26, 0.96);
+          flex-direction: column;
+          width: 100%;
+          text-align: center;
+          padding: 14px 0;
+        }
+        .nav-links.active {
+          display: flex;
+        }
+        .hamburger {
+          display: flex;
+        }
+      }
+
+      /* ===== Floating home button ===== */
+      .btn-home {
+        background: linear-gradient(45deg, #2fba00, #95ff00);
+        color: #fffbea;
+        padding: 12px 14px;
+        border-radius: 15px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-decoration: none;
+        font-size: 20px;
+        font-family: "Press Start 2P", cursive;
+        box-shadow: 0 0 20px rgba(94, 255, 0, 0.9);
+        position: fixed;
+        bottom: 10px;
+        right: 30px;
+        z-index: 1100;
+        transition: all 0.3s ease-in-out;
+        border: 2px solid #c2ffa3;
+        text-shadow: 0 0 5px #dfffc1;
+      }
+      /* ===== Shared Tooltip for Floating Buttons ===== */
+      .btn-demo::before {
+        content: attr(data-tooltip);
+        position: absolute;
+        bottom: 100%;
+        left: 0;
+        margin-bottom: 10px;
+        background: rgba(0, 0, 0, 0.9);
+        color: #ffd700;
+        padding: 6px 10px;
+        border-radius: 8px;
+        font-size: 9px;
+        font-family: Arial, sans-serif;
+        white-space: nowrap;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.25s ease;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+        z-index: 2000;
+      }
+
+      .btn-home::before {
+        content: attr(data-tooltip);
+        position: absolute;
+        bottom: 100%;
+        right: 0;
+        margin-bottom: 10px;
+        background: rgba(0, 0, 0, 0.9);
+        color: #ffd700;
+        padding: 6px 10px;
+        border-radius: 8px;
+        font-size: 9px;
+        font-family: Arial, sans-serif;
+        white-space: nowrap;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.25s ease;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+        z-index: 2000;
+      }
+
+      .btn-home:hover::before,
+      .btn-demo:hover::before {
+        opacity: 1;
+      }
+
+      .btn-home:hover {
+        transform: scale(1.15) rotate(-3deg);
+        box-shadow: 0 0 30px #84ff00;
+      }
+      .btn-demo {
+        background: linear-gradient(45deg, #ffea00, #ccb800);
+        color: #ffffff;
+        padding: 12px 14px;
+        border-radius: 15px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 20px;
+        position: fixed;
+        bottom: 10px;
+        right: 100px;
+        z-index: 500;
+        box-shadow:
+          0 0 20px rgba(242, 255, 0, 0.9),
+          0 0 40px rgba(255, 221, 0, 0.641);
+        border: 2px solid #fcffaa;
+        text-shadow: 0 0 10px #ffffff;
+        transition: all 0.3s ease;
+      }
+
+      .btn-demo:hover {
+        transform: scale(1.2) rotate(5deg);
+        box-shadow:
+          0 0 30px #f2ff00,
+          0 0 60px #ccb400;
+        filter: brightness(1.3);
+      }
+      /* ===== Main layout ===== */
+      main {
+        padding: 120px 14px 80px;
+        display: flex;
+        justify-content: center;
+      }
+      .panel {
+        width: 100%;
+        max-width: 980px;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        align-items: center;
+      }
+
+      /* HUD & Timer (center-top above board) */
+      .hud {
+        position: fixed;
+        top: 140px;
+        right: 30px;
+        background: rgba(0, 20, 40, 0.9);
+        border: 2px solid #00ff99;
+        border-radius: 15px;
+        padding: 12px 20px;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        color: #fff;
+        font-family: "Press Start 2P", cursive;
+        font-size: 11px;
+        text-shadow: 0 0 6px #00ff99;
+        box-shadow: 0 0 15px rgba(0, 255, 153, 0.4);
+        z-index: 50;
+        transition: transform 0.3s ease;
+      }
+
+      .hud-item span {
+        color: #ffff66;
+        text-shadow: 0 0 10px #ffff66;
+      }
+
+      .hud:hover {
+        transform: scale(1.05);
+      }
+
+      .score-float {
+        position: fixed;
+        top: 110px;
+        right: 40px;
+        color: #00ff99;
+        font-family: "Press Start 2P", cursive;
+        font-size: 12px;
+        opacity: 0;
+        pointer-events: none;
+        text-shadow:
+          0 0 10px #00ff99,
+          0 0 20px #00ff99;
+        transition:
+          opacity 0.1s,
+          transform 0.6s;
+        z-index: 999;
+      }
+      .score-float.active {
+        opacity: 1;
+        transform: translateY(-25px);
+      }
+
+      .controls {
+        display: flex;
+        gap: 10px;
+      }
+      .btn {
+        padding: 5px 12px;
+        border-radius: 8px;
+        background: rgba(255, 255, 255, 0.02);
+        border: 1px solid rgba(44, 255, 1, 0.363);
+        cursor: pointer;
+        font-size: 11px;
+        color: #eafff0;
+        font-family: "Press Start 2P", cursive;
+        transition: all 0.3s ease;
+      }
+      .btn:hover {
+        transform: scale(1.08);
+        background-color: #5ce24a;
+        color: white;
+      }
+
+      /* Video demo modal (responsive) */
+      .video-overlay {
+        position: fixed;
+        inset: 0;
+        display: none;
+        align-items: center;
+        justify-content: center;
+        background: rgba(0, 0, 0, 0.8);
+        z-index: 950;
+        padding: 20px;
+      }
+      .video-overlay.show {
+        display: flex;
+      }
+      .video-modal {
+        width: 100%;
+        max-width: 920px;
+        background: transparent;
+        border-radius: 12px;
+        overflow: hidden;
+        position: relative;
+        box-shadow: 0 12px 40px rgba(0, 0, 0, 0.6);
+      }
+      .video-modal video {
+        width: 100%;
+        height: auto;
+        display: block;
+        background: #000;
+      }
+      .video-close {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        z-index: 960;
+        background: rgba(255, 255, 255, 0.95);
+        color: #000;
+        border-radius: 8px;
+        padding: 6px 10px;
+        cursor: pointer;
+        font-family: "Press Start 2P", cursive;
+        font-size: 11px;
+      }
+
+      /* ===== Board: fixed 4x3 layout for 6 pairs (12 cards) ===== */
+      .board-wrap {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+      }
+      .board {
+        width: min(900px, 96%);
+        max-width: 900px;
+        padding: 20px;
+        border-radius: 14px;
+        border: 2px solid #00ff99;
+        background: linear-gradient(
+          180deg,
+          rgba(0, 0, 0, 0.3),
+          rgba(3, 6, 10, 0.12)
+        );
+        border: 2px solid rgba(0, 255, 153, 0.06);
+        box-shadow: 0 12px 40px rgba(0, 0, 0, 0.6);
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 12px;
+        justify-items: center;
+      }
+
+      /* ===== Card & flip ===== */
+      .card {
+        width: 100%;
+        max-width: 130px;
+        aspect-ratio: 1/1;
+        border-radius: 14px;
+        perspective: 900px;
+        cursor: pointer;
+        position: relative;
+      }
+      .card-inner {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        transform-style: preserve-3d;
+        transition: transform 0.55s cubic-bezier(0.2, 0.9, 0.3, 1);
+      }
+      .card.flip .card-inner {
+        transform: rotateY(180deg);
+      }
+      .face {
+        position: absolute;
+        inset: 0;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        backface-visibility: hidden;
+      }
+      .front {
+        background: linear-gradient(180deg, #434141, #2b2a2a);
+        border: 2px solid rgba(0, 255, 153, 0.06);
+      }
+      .back {
+        transform: rotateY(180deg);
+        background: linear-gradient(
+          180deg,
+          rgba(255, 252, 252, 0.14),
+          rgba(255, 255, 255, 0.18)
+        );
+        border: 2px solid rgba(0, 0, 0, 0.08);
+        box-shadow: inset 0 2px 0 rgba(0, 0, 0, 0.02);
+      }
+
+      .front .dot {
+        width: 44%;
+        height: 44%;
+        border-radius: 8px;
+        background: rgba(255, 255, 255, 0.02);
+      }
+
+      /* text label */
+      .label {
+        color: #e8fff7;
+        font-size: 12px;
+        text-shadow: 0 0 8px rgba(0, 255, 153, 0.06);
+      }
+
+      /* ===== Image style for shapes (replaces CSS shapes) ===== */
+      /* keep existing shape classes (half, third...) so design file lines remain but not used */
+      .img-shape {
+        width: 80px;
+        height: 80px;
+        object-fit: contain;
+        filter: drop-shadow(0 0 10px rgba(0, 255, 153, 0.2));
+        border-radius: 8px;
+      }
+      /* optional glow container similar to old .shape::after */
+      .back .img-glow {
+        position: absolute;
+        inset: calc(50% - 48px) auto auto calc(50% - 48px);
+        width: 96px;
+        height: 96px;
+        border-radius: 12px;
+        pointer-events: none;
+        box-shadow: 0 0 26px rgba(0, 255, 153, 0.06);
+      }
+
+      .shape::after {
+        content: "";
+        position: absolute;
+        inset: -8px;
+        border-radius: 10px;
+        pointer-events: none;
+        box-shadow: 0 0 26px rgba(0, 255, 153, 0.06);
+      }
+
+      h1 {
+        font-size: 30px;
+        color: #00ff99;
+        text-shadow:
+          0 0 5px #00ff99,
+          0 0 5px #00ff99;
+        margin-bottom: 5px;
+        right: auto;
+        left: auto;
+        animation: glowPulse 2s infinite alternate;
+        text-align: center;
+      }
+      /* matched & wrong states */
+      .card.matched .back {
+        box-shadow:
+          0 12px 30px rgba(0, 255, 153, 0.18),
+          0 0 28px rgba(0, 255, 153, 0.12) inset;
+      }
+      .card.matched {
+        transform: scale(0.98);
+        pointer-events: none;
+        opacity: 0.95;
+      }
+      @keyframes shake {
+        10% {
+          transform: translateX(-6px);
+        }
+        30% {
+          transform: translateX(6px);
+        }
+        50% {
+          transform: translateX(-4px);
+        }
+        70% {
+          transform: translateX(4px);
+        }
+        90% {
+          transform: translateX(-2px);
+        }
+        100% {
+          transform: translateX(0);
+        }
+      }
+      .card.wrong {
+        animation: shake 0.8s ease;
+      }
+
+      /* overlay modal */
+      .overlay {
+        position: fixed;
+        inset: 0;
+        display: none;
+        align-items: center;
+        justify-content: center;
+        background: rgba(0, 0, 0, 0.66);
+        z-index: 800;
+      }
+      .overlay.show {
+        display: flex;
+      }
+      .modal {
+        background: linear-gradient(180deg, #02121f, #031a22);
+        padding: 18px;
+        border-radius: 12px;
+        border: 2px solid rgba(0, 255, 153, 0.08);
+        width: 320px;
+        color: #eafff0;
+        text-align: center;
+      }
+      .modal h2 {
+        color: #bfffb9;
+        margin-bottom: 6px;
+      }
+      .modal p {
+        font-size: 13px;
+        margin-bottom: 12px;
+      }
+      .modal .btn {
+        padding: 8px 12px;
+        border-radius: 8px;
+        background: #00a874;
+        border: none;
+        cursor: pointer;
+        color: #04120b;
+      }
+
+      /* responsive */
+      @media (max-width: 920px) {
+        .board {
+          gap: 14px;
+          grid-template-columns: repeat(4, 1fr);
+          width: 92%;
+        }
+        .card {
+          max-width: 130px;
+        }
+      }
+      @media (max-width: 768px) {
+        main {
+          padding-top: 10px;
+          padding-bottom: 60px;
+        }
+        .hud {
+          position: relative;
+          top: auto;
+          right: auto;
+          margin: 80px auto 10px auto;
+          display: flex;
+          flex-direction: row;
+          justify-content: space-around;
+          width: 90%;
+          max-width: 400px;
+          font-size: 8px;
+          padding: 8px 12px;
+        }
+        .btn-home {
+          bottom: 10px;
+          right: 10px;
+          font-size: 14px;
+          padding: 8px 10px;
+          border-radius: 10px;
+        }
+        .btn-demo {
+          bottom: 10px;
+          left: 10px;
+          right: auto;
+          font-size: 14px;
+          padding: 8px 10px;
+          border-radius: 10px;
+        }
+      }
+      @media (max-width: 620px) {
+        .board {
+          grid-template-columns: repeat(3, 1fr);
+          gap: 12px;
+          width: 94%;
+        }
+        .card {
+          max-width: 120px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="stars" id="stars"></div>
+
+    <div class="navbar">
+      <div class="nav-left">
+        <img src="image/newLogo.png" alt="logo" />
+      </div>
+      <div class="nav-links" id="navLinks">
+        <a href="index.html">🏠 HALAMAN UTAMA</a>
+        <a href="pelajaran.html">✏️ PELAJARAN</a>
+        <a href="latihan.html" class="active">🗒️ LATIHAN</a>
+      </div>
+      <div
+        class="hamburger"
+        id="hamburger"
+        role="button"
+        tabindex="0"
+        aria-label="Menu"
+      >
+        <div></div>
+        <div></div>
+        <div></div>
+      </div>
+    </div>
+    <div class="hud">
+      <div class="chip">
+        ⭐ Skor: <span id="score">0</span>/<span id="max">6</span>
+      </div>
+      <div class="timer">⏱️ Masa: <span id="timer">2:00</span></div>
+    </div>
+    <div id="score-float" class="score-float">+1</div>
+
+    <main>
+      <div class="panel">
+        <h1>PERMAINAN INGATAN</h1>
+        <div class="controls">
+          <button class="btn" id="restartBtn">Mula Baru (R)</button>
+          <button class="btn" id="hintBtn">Hint</button>
+        </div>
+        <div class="board-wrap">
+          <div class="board" id="board" role="grid" aria-live="polite"></div>
+        </div>
+      </div>
+      <div class="preview-msg" id="previewMsg">
+        ⏳ Ingat selama 10 saat sebelum menjawab!
+      </div>
+    </main>
+
+    <!-- btn-demo -->
+    <button class="btn-demo" id="demoBtn" data-tooltip="Video Demo">📼</button>
+
+    <!-- btn-home -->
+    <a href="latihan.html" class="btn-home" data-tooltip="Halaman Latihan"
+      >🏠</a
+    >
+
+    <div class="overlay" id="overlay" role="dialog" aria-modal="true">
+      <div class="modal" id="modal">
+        <h2 id="modalTitle">Tahniah!</h2>
+        <p id="modalText">Anda berjaya padankan semua pecahan.</p>
+        <p id="modalStats"></p>
+        <button class="btn" id="retryBtn">Cuba Lagi</button>
+      </div>
+    </div>
+
+    <!-- Video demo overlay -->
+    <div
+      class="video-overlay"
+      id="videoOverlay"
+      role="dialog"
+      aria-modal="true"
+      aria-label="Video Demo"
+    >
+      <div class="video-modal" role="document">
+        <button class="video-close" id="videoClose">x</button>
+        <video
+          id="video_ingatan"
+          controls
+          playsinline
+          preload="metadata"
+          poster="image/video_poster.jpg"
+        >
+          <source src="image/ingat_demo.mp4" type="video/mp4" />
+          Your browser does not support the video tag.
+        </video>
+      </div>
+    </div>
+
+    <audio id="sndFlip" src="sound/flip.wav" preload="auto"></audio>
+    <audio id="sndCorrect" src="sound/correctAnswer.wav" preload="auto"></audio>
+    <audio id="sndWrong" src="sound/wrongAnswer.wav" preload="auto"></audio>
+    <audio id="sndTimeout" src="sound/showResult.mp3" preload="auto"></audio>
+    <audio id="sndBack" src="sound/back.mp3" preload="auto"></audio>
+
+    <script>
+      (function createStars() {
+        const c = document.getElementById("stars");
+        for (let i = 0; i < 70; i++) {
+          const s = document.createElement("div");
+          s.className = "star";
+          s.style.left = Math.random() * 100 + "%";
+          s.style.top = Math.random() * 100 + "%";
+          s.style.opacity = 0.15 + Math.random() * 0.85;
+          s.style.animationDuration = 1 + Math.random() * 2 + "s";
+          c.appendChild(s);
+        }
+      })();
+
+      const hamburger = document.getElementById("hamburger");
+      const navLinks = document.getElementById("navLinks");
+      hamburger.addEventListener("click", () =>
+        navLinks.classList.toggle("active"),
+      );
+      hamburger.addEventListener("keydown", (e) => {
+        if (e.key === "Enter") hamburger.click();
+      });
+
+      const PAIRS = [
+        { label: "1/2", image: "image/1_2.png" },
+        { label: "1/3", image: "image/1_3.png" },
+        { label: "2/3", image: "image/2_3.png" },
+        { label: "3/4", image: "image/3_4.png" },
+        { label: "1/4", image: "image/1_4.png" },
+        { label: "1/6", image: "image/1_6.png" },
+      ];
+
+      const sndFlip = document.getElementById("sndFlip");
+      const sndCorrect = document.getElementById("sndCorrect");
+      const sndWrong = document.getElementById("sndWrong");
+      const sndTimeout = document.getElementById("sndTimeout");
+      const sndBack = document.getElementById("sndBack");
+      const board = document.getElementById("board");
+      const timerEl = document.getElementById("timer");
+      const scoreEl = document.getElementById("score");
+      const maxEl = document.getElementById("max");
+      const overlay = document.getElementById("overlay");
+      const modalTitle = document.getElementById("modalTitle");
+      const modalText = document.getElementById("modalText");
+      const modalStats = document.getElementById("modalStats");
+      const retryBtn = document.getElementById("retryBtn");
+      const restartBtn = document.getElementById("restartBtn");
+      const hintBtn = document.getElementById("hintBtn");
+      const demoBtn = document.getElementById("demoBtn");
+      const scoreFloat = document.getElementById("score-float");
+
+      // Video demo elements
+      const videoOverlay = document.getElementById("videoOverlay");
+      const videoEl = document.getElementById("video_ingatan");
+      const videoClose = document.getElementById("videoClose");
+
+      // Open video demo
+      demoBtn.addEventListener("click", () => {
+        videoOpen = true;
+        // pause active countdown
+        if (countdownTimer) {
+          clearInterval(countdownTimer);
+          countdownTimer = null;
+          countdownPaused = true;
+        }
+        videoOverlay.classList.add("show");
+        try {
+          videoEl.currentTime = 0;
+          videoEl.play().catch(() => {});
+        } catch (e) {}
+      });
+
+      // Close handlers: button, overlay click outside, Escape
+      videoClose.addEventListener("click", closeVideo);
+      videoOverlay.addEventListener("click", (ev) => {
+        if (ev.target === videoOverlay) closeVideo();
+      });
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape" && videoOverlay.classList.contains("show"))
+          closeVideo();
+      });
+
+      function closeVideo() {
+        playSound(sndBack);
+        videoOverlay.classList.remove("show");
+        try {
+          videoEl.pause();
+          videoEl.currentTime = 0;
+        } catch (e) {}
+        // mark video closed and resume countdown if needed
+        videoOpen = false;
+        if (countdownPaused || countdownPending) {
+          // resume countdown without resetting remaining time
+          startCountdown(false);
+        }
+      }
+
+      let deck = [];
+      let first = null,
+        second = null;
+      let lock = false;
+      let matches = 0;
+      const TOTAL_PAIRS = PAIRS.length;
+      let score = 0;
+      let previewTimer = null;
+      let countdownTimer = null;
+      let timeLeft = 120;
+      let previewing = false;
+
+      // video / countdown pause flags
+      let videoOpen = false;
+      let countdownPaused = false;
+      let countdownPending = false;
+
+      maxEl.textContent = TOTAL_PAIRS;
+
+      function shuffle(a) {
+        for (let i = a.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [a[i], a[j]] = [a[j], a[i]];
+        }
+      }
+
+      function buildDeck() {
+        const cards = [];
+        PAIRS.forEach((p, idx) => {
+          cards.push({
+            pair: idx,
+            kind: "text",
+            html: `<div class="label">${p.label}</div>`,
+          });
+
+          cards.push({
+            pair: idx,
+            kind: "image",
+            html: `<div style="position:relative;display:flex;align-items:center;justify-content:center;"><img src="${p.image}" alt="${p.label}" class="img-shape"><div class="img-glow" aria-hidden="true"></div></div>`,
+          });
+        });
+        shuffle(cards);
+        deck = cards;
+      }
+
+      function renderBoard() {
+        board.innerHTML = "";
+        deck.forEach((cardData, idx) => {
+          const card = document.createElement("div");
+          card.className = "card";
+          card.dataset.pair = cardData.pair;
+          card.dataset.index = idx;
+          card.innerHTML = `
+            <div class="card-inner">
+              <div class="face front"><div class="dot"></div></div>
+              <div class="face back">${cardData.html}</div>
+            </div>
+          `;
+          card.addEventListener("click", () => onCardClick(card));
+          board.appendChild(card);
+        });
+      }
+
+      function previewThenStart() {
+        previewing = true;
+        const all = Array.from(document.querySelectorAll(".card"));
+        all.forEach((c) => c.classList.add("flip"));
+        playSound(sndFlip);
+
+        // show reminder message
+        const msg = document.getElementById("previewMsg");
+        msg.style.display = "block";
+
+        // 10 seconds preview
+        previewTimer = setTimeout(() => {
+          all.forEach((c) => c.classList.remove("flip"));
+          previewing = false;
+          msg.style.display = "none";
+          startCountdown();
+        }, 10000);
+      }
+
+      // play safe
+      function playSound(el) {
+        if (!el) return;
+        try {
+          el.currentTime = 0;
+          el.play().catch(() => {});
+        } catch (e) {}
+      }
+
+      // Click handler
+      function onCardClick(card) {
+        if (previewing) return; // no clicks during preview
+        if (lock) return;
+        if (
+          card.classList.contains("flip") ||
+          card.classList.contains("matched")
+        )
+          return;
+
+        // flip sound
+        playSound(sndFlip);
+        // flip visually
+        card.classList.add("flip");
+
+        if (!first) {
+          first = card;
+          return;
+        }
+        second = card;
+        lock = true;
+
+        const p1 = first.dataset.pair;
+        const p2 = second.dataset.pair;
+
+        if (p1 === p2 && first !== second) {
+          // correct
+          setTimeout(() => {
+            first.classList.add("matched");
+            second.classList.add("matched");
+            first.style.pointerEvents = "none";
+            second.style.pointerEvents = "none";
+            playSound(sndCorrect);
+            matches++;
+            score++;
+            scoreEl.textContent = score;
+            // Show floating score
+            scoreFloat.classList.add("active");
+            setTimeout(() => scoreFloat.classList.remove("active"), 600);
+            resetSelection();
+            if (matches === TOTAL_PAIRS) {
+              // win
+              endGame(true);
+            }
+          }, 350);
+        } else {
+          // wrong
+          playSound(sndWrong);
+          first.classList.add("wrong");
+          second.classList.add("wrong");
+          setTimeout(() => {
+            first.classList.remove("flip", "wrong");
+            second.classList.remove("flip", "wrong");
+            resetSelection();
+          }, 900);
+        }
+      }
+
+      function resetSelection() {
+        first = null;
+        second = null;
+        lock = false;
+      }
+
+      // Countdown
+      // start or resume countdown; pass reset=true only to restart full timer
+      function startCountdown(reset = false) {
+        if (reset) {
+          timeLeft = 120;
+        }
+        // if a demo video is open, postpone starting
+        if (videoOpen) {
+          countdownPending = true;
+          return;
+        }
+        updateTimerDisplay();
+        if (countdownTimer) clearInterval(countdownTimer);
+        countdownTimer = setInterval(() => {
+          timeLeft--;
+          updateTimerDisplay();
+          if (timeLeft <= 0) {
+            clearInterval(countdownTimer);
+            endGame(false); // timeout
+          }
+        }, 1000);
+        countdownPaused = false;
+        countdownPending = false;
+      }
+      function stopCountdown() {
+        if (countdownTimer) clearInterval(countdownTimer);
+      }
+
+      function updateTimerDisplay() {
+        const m = Math.floor(timeLeft / 60)
+          .toString()
+          .padStart(2, "0");
+        const s = (timeLeft % 60).toString().padStart(2, "0");
+        timerEl.textContent = `${m}:${s}`;
+      }
+
+      // Show hint (briefly flip unmatched cards)
+      function showHint() {
+        if (previewing) return;
+        const all = Array.from(document.querySelectorAll(".card")).filter(
+          (c) => !c.classList.contains("matched"),
+        );
+        if (all.length === 0) return;
+        // show for 900ms
+        all.forEach((c) => c.classList.add("flip"));
+        setTimeout(
+          () =>
+            all.forEach((c) => {
+              if (!c.classList.contains("matched")) c.classList.remove("flip");
+            }),
+          900,
+        );
+      }
+
+      // End game (winOrTimeout true -> win)
+      function endGame(win) {
+        // stop timers
+        stopCountdown();
+        if (previewTimer) clearTimeout(previewTimer);
+        // disable board
+        const all = Array.from(document.querySelectorAll(".card"));
+        all.forEach((c) => (c.style.pointerEvents = "none"));
+
+        if (win) {
+          playSound(sndCorrect);
+          modalTitle.textContent = "Tahniah!";
+          modalText.textContent = "Anda berjaya padankan semua pecahan.";
+          modalStats.textContent = `Masa tinggal: ${timerEl.textContent} | Skor: ${score} / ${TOTAL_PAIRS}`;
+        } else {
+          playSound(sndTimeout);
+          modalTitle.textContent = "Masa Tamat!";
+          modalText.textContent = "Masa anda telah tamat. Cuba lagi?";
+          modalStats.textContent = `Skor: ${score} / ${TOTAL_PAIRS}`;
+        }
+        overlay.classList.add("show");
+      }
+
+      // Restart
+      function init(restart = false) {
+        // clear
+        if (previewTimer) clearTimeout(previewTimer);
+        stopCountdown();
+        // reset state
+        first = null;
+        second = null;
+        lock = false;
+        matches = 0;
+        score = 0;
+        scoreEl.textContent = "0";
+        timeLeft = 120;
+        timerEl.textContent = "02:00";
+        overlay.classList.remove("show");
+        // build deck & render
+        buildDeck();
+        renderBoard();
+        // preview
+        setTimeout(() => previewThenStart(), 200); // small delay for UI stable
+      }
+
+      // UI buttons
+      retryBtn.addEventListener("click", () => {
+        overlay.classList.remove("show");
+        init(true);
+      });
+      restartBtn.addEventListener("click", () => init(true));
+      hintBtn.addEventListener("click", showHint);
+      videoClose.addEventListener("click", () =>
+        videoOverlay.classList.remove("show"),
+      );
+
+      // Keyboard: R restart
+      document.addEventListener("keydown", (e) => {
+        if (e.key.toLowerCase() === "r") init(true);
+        if (e.key === "Escape") overlay.classList.remove("show");
+      });
+
+      // overlay close on outside click
+      overlay.addEventListener("click", (ev) => {
+        if (ev.target === overlay) overlay.classList.remove("show");
+      });
+
+      // initial start
+      init();
+    </script>
+  </body>
+</html>

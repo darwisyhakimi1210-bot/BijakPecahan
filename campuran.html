@@ -1,0 +1,663 @@
+<!doctype html>
+<html lang="ms">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Bijak Pecahan | Campuran</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        font-family: "Press Start 2P", cursive;
+        background: url("image/background.jpg") no-repeat center center fixed;
+        background-size: cover;
+        color: white;
+        overflow: hidden;
+        height: 100vh;
+      }
+
+      /* Stars animation */
+      .stars {
+        position: fixed;
+        inset: 0;
+        z-index: -1;
+        overflow: hidden;
+      }
+      .star {
+        position: absolute;
+        width: 5px;
+        height: 5px;
+        background: rgba(205, 168, 5, 0.529);
+        border-radius: 50%;
+        animation: blink 2s infinite ease-in-out;
+      }
+      @keyframes blink {
+        0%,
+        100% {
+          opacity: 0.2;
+        }
+        50% {
+          opacity: 1;
+        }
+      }
+
+      .navbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 15px 30px;
+        background: rgba(10, 10, 40, 0.85);
+        position: fixed;
+        width: 100%;
+        top: 0;
+        z-index: 100;
+      }
+
+      .nav-left {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      .nav-left img {
+        width: 250px;
+        height: auto;
+        max-height: 80px;
+        display: block;
+      }
+      .nav-title {
+        font-size: 12px;
+        background: #00aaff;
+        padding: 6px 14px;
+        border-radius: 20px;
+      }
+
+      .nav-links {
+        display: flex;
+        gap: 20px;
+      }
+      .nav-links a {
+        color: white;
+        text-decoration: none;
+        font-size: 13px;
+      }
+      .nav-links a:hover,
+      .nav-links a.active {
+        color: #ffd700;
+        text-shadow: 0 0 10px #ffd700;
+      }
+
+      .hamburger {
+        display: none;
+        flex-direction: column;
+        justify-content: space-between;
+        width: 24px;
+        height: 18px;
+        cursor: pointer;
+      }
+      .hamburger div {
+        background-color: white;
+        height: 3px;
+        border-radius: 2px;
+      }
+
+      .content {
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        padding-top: 60px;
+        overflow: hidden;
+      }
+
+      h1 {
+        color: #ffcc33;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+        font-size: 30px;
+        margin-bottom: 10px;
+      }
+
+      .nota {
+        width: 100%;
+        max-width: 750px;
+        height: auto;
+        border-radius: 15px;
+        box-shadow: 0 0 15px rgba(0, 0, 0, 0.6);
+        margin-bottom: 25px;
+        object-fit: cover;
+        object-position: center;
+        display: block;
+      }
+
+      .buttons {
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+        flex-wrap: wrap;
+      }
+      .buttons a,
+      .buttons button {
+        text-decoration: none;
+        color: white;
+        font-size: 11px;
+        font-family: "Press Start 2P", cursive;
+        padding: 12px 18px;
+        border-radius: 10px;
+        transition: 0.3s ease;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
+        border: none;
+        cursor: pointer;
+      }
+
+      .btn-kembali {
+        background: linear-gradient(45deg, #ff5c5c, #ff3333);
+        border: 2px solid #ffcccc;
+        box-shadow:
+          0 0 20px rgba(255, 92, 92, 0.9),
+          0 0 40px rgba(255, 76, 76, 0.6);
+        text-shadow: 0 0 10px #ffffff;
+      }
+      .btn-kembali:hover {
+        transform: scale(1.2) rotate(5deg);
+        box-shadow:
+          0 0 30px #ff5c5c,
+          0 0 60px #ff4c4c;
+        filter: brightness(1.3);
+      }
+      .btn-teruskan {
+        background: linear-gradient(45deg, #2ecc71, #27ae60);
+        border: 2px solid #ccffcc;
+        box-shadow:
+          0 0 20px rgba(46, 204, 113, 0.9),
+          0 0 40px rgba(39, 174, 96, 0.6);
+        text-shadow: 0 0 10px #ffffff;
+      }
+      .btn-teruskan:hover {
+        transform: scale(1.15) rotate(-3deg);
+        box-shadow:
+          0 0 30px #2ecc71,
+          0 0 60px #27ae60;
+        filter: brightness(1.2);
+      }
+      .btn-video {
+        background: linear-gradient(45deg, #29c1d8, #1e90ff);
+        border: 2px solid #ccffff;
+        box-shadow:
+          0 0 20px rgba(41, 193, 216, 0.9),
+          0 0 40px rgba(30, 144, 255, 0.6);
+        text-shadow: 0 0 10px #ffffff;
+      }
+      .btn-video:hover {
+        transform: scale(1.2) rotate(2deg);
+        box-shadow:
+          0 0 30px #29c1d8,
+          0 0 60px #1e90ff;
+        filter: brightness(1.3);
+      }
+      .btn-book {
+        background: linear-gradient(45deg, #00ff80, #00cc66);
+        color: #ffffff;
+        padding: 12px 14px;
+        border-radius: 15px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 20px;
+        position: fixed;
+        bottom: 10px;
+        right: 100px;
+        z-index: 500;
+        box-shadow:
+          0 0 20px rgba(0, 255, 100, 0.9),
+          0 0 40px rgba(0, 255, 150, 0.6);
+        border: 2px solid #aaffcc;
+        text-shadow: 0 0 10px #ffffff;
+        transition: all 0.3s ease;
+      }
+
+      /* ===== Shared Tooltip Style ===== */
+      .btn-book::before {
+        font-family: Arial, sans-serif;
+        content: attr(data-tooltip);
+        position: absolute;
+        bottom: 100%;
+        left: 0;
+        background: rgba(0, 0, 0, 0.9);
+        color: #ffd700;
+        padding: 6px 10px;
+        border-radius: 8px;
+        white-space: nowrap;
+        font-size: 10px;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.28s ease;
+        margin-bottom: 10px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+      }
+
+      .btn-home::before {
+        font-family: Arial, sans-serif;
+        content: attr(data-tooltip);
+        position: absolute;
+        bottom: 100%;
+        right: 0;
+        background: rgba(0, 0, 0, 0.9);
+        color: #ffd700;
+        padding: 6px 10px;
+        border-radius: 8px;
+        white-space: nowrap;
+        font-size: 10px;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.28s ease;
+        margin-bottom: 10px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+      }
+
+      .btn-book:hover::before,
+      .btn-home:hover::before {
+        opacity: 1;
+      }
+
+      .btn-book:hover {
+        transform: scale(1.15) rotate(-3deg);
+      }
+      .btn-home {
+        background: linear-gradient(45deg, #ffd700, #ffb700);
+        color: #fffbea;
+        padding: 12px 14px;
+        border-radius: 15px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-decoration: none;
+        font-size: 20px;
+        font-family: "Press Start 2P", cursive;
+        box-shadow:
+          0 0 20px rgba(255, 215, 0, 0.9),
+          0 0 40px rgba(255, 200, 0, 0.6);
+        position: fixed;
+        bottom: 10px;
+        right: 30px;
+        z-index: 500;
+        transition: all 0.3s ease-in-out;
+        border: 2px solid #fff5a3;
+        text-shadow:
+          0 0 5px #fff4c1,
+          0 0 15px #ffcc00;
+      }
+
+      .btn-home:hover {
+        transform: scale(1.15) rotate(-3deg);
+        box-shadow:
+          0 0 30px #ffd700,
+          0 0 60px #ffb800;
+        filter: brightness(1.2);
+      }
+
+      .overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.7);
+        backdrop-filter: blur(5px);
+        justify-content: center;
+        align-items: center;
+        z-index: 200;
+        animation: fadeIn 0.4s ease;
+      }
+      .overlay.show {
+        display: flex;
+      }
+
+      .popup {
+        position: relative;
+        background: rgba(20, 20, 20, 0.95);
+        padding: 10px;
+        border-radius: 15px;
+        max-width: 80%;
+        width: 700px;
+        box-shadow: 0 0 25px rgba(0, 0, 0, 0.8);
+        animation: zoomIn 0.4s ease;
+      }
+
+      video,
+      iframe {
+        width: 100%;
+        border-radius: 10px;
+        height: 400px;
+      }
+
+      .close-btn {
+        position: absolute;
+        top: -10px;
+        right: -10px;
+        background: #ff4c4c;
+        color: white;
+        border: none;
+        border-radius: 50%;
+        width: 30px;
+        height: 30px;
+        font-size: 16px;
+        cursor: pointer;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
+      }
+
+      .note-status {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-bottom: 10px;
+        gap: 8px;
+        animation: fadeIn 1.8s ease;
+      }
+      .note-text {
+        font-size: 10px;
+        color: #ffd700;
+        text-shadow:
+          0 0 8px #000000,
+          0 0 15px #000000;
+        letter-spacing: -3px;
+      }
+      .progress-track {
+        width: 100px;
+        height: 6px;
+        background: rgba(255, 255, 255, 0.2);
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: 0 0 10px rgba(11, 9, 0, 0.3);
+      }
+      .progress-fill {
+        height: 100%;
+        background: linear-gradient(90deg, #ffd700, #ffa500);
+        width: 80%;
+        border-radius: 10px;
+        animation: fillProgress 1s ease forwards;
+      }
+
+      @keyframes fillProgress {
+        from {
+          width: 0;
+        }
+        to {
+          width: 80%;
+        }
+      }
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
+      }
+      @keyframes zoomIn {
+        from {
+          transform: scale(0.8);
+          opacity: 0;
+        }
+        to {
+          transform: scale(1);
+          opacity: 1;
+        }
+      }
+
+      @media (max-width: 768px) {
+        .nav-left img {
+          width: 150px;
+          height: auto;
+          max-height: 45px;
+        }
+        .hamburger {
+          display: flex;
+        }
+        .nav-links {
+          display: none;
+          flex-direction: column;
+          background: rgba(10, 10, 40, 0.95);
+          width: 100%;
+          position: absolute;
+          top: 65px;
+          left: 0;
+          text-align: center;
+          padding: 15px 0;
+          animation: slideDown 0.3s ease forwards;
+        }
+        .nav-links.show {
+          display: flex;
+        }
+        .nav-links a {
+          padding: 10px 0;
+          display: block;
+          font-size: 10px;
+        }
+        @keyframes slideDown {
+          from {
+            opacity: 0;
+            transform: translateY(-10px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+        h1 {
+          font-size: 18px;
+          margin-bottom: 15px;
+        }
+        .nota {
+          width: 90%;
+        }
+        .buttons a,
+        .buttons button {
+          font-size: 9px;
+          padding: 10px 14px;
+        }
+        .popup {
+          width: 90%;
+        }
+        video,
+        iframe {
+          height: 220px;
+        }
+        .btn-book {
+          bottom: 10px;
+          left: 10px;
+          right: auto;
+          font-size: 14px;
+          padding: 8px 10px;
+          border-radius: 10px;
+        }
+        .btn-home {
+          bottom: 10px;
+          right: 10px;
+          font-size: 14px;
+          padding: 8px 10px;
+          border-radius: 10px;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="stars" id="stars"></div>
+
+    <div class="navbar">
+      <div class="nav-left">
+        <img src="image/newLogo.png" alt="Logo" />
+      </div>
+
+      <div class="hamburger" onclick="toggleMenu()">
+        <div></div>
+        <div></div>
+        <div></div>
+      </div>
+
+      <div class="nav-links" id="navLinks">
+        <a href="index.html">🏠 HALAMAN UTAMA</a>
+        <a href="pelajaran.html" class="active">✏️ PELAJARAN</a>
+        <a href="latihan.html">🗒️ LATIHAN</a>
+      </div>
+    </div>
+
+    <div class="content">
+      <h1>Operasi Campuran Pecahan</h1>
+      <div class="note-status">
+        <span class="note-text">4 / 5</span>
+        <div class="progress-track">
+          <div class="progress-fill" style="width: 80%"></div>
+        </div>
+      </div>
+
+      <video id="myVideo" class="nota" autoplay muted playsinline>
+        <source src="image/campuran_a.mp4" type="video/mp4" />
+      </video>
+
+      <script>
+        const video = document.getElementById("myVideo");
+        const desiredDuration = 10; // in seconds
+        let playTime = 0;
+
+        // When video ends, check if total play time reached desired duration
+        video.addEventListener("ended", () => {
+          playTime += video.duration;
+          if (playTime < desiredDuration) {
+            video.currentTime = 0; // restart video
+            video.play();
+          }
+        });
+      </script>
+
+      <div class="buttons">
+        <a href="pembahagian.html" class="btn-kembali"><</a>
+        <button class="btn-video" onclick="openVideo()">TONTON VIDEO</button>
+        <a href="masalah.html" class="btn-teruskan">></a>
+      </div>
+    </div>
+
+    <button class="btn-book" onclick="openFlipbook()" data-tooltip="Buku Teks">
+      📚
+    </button>
+    <a href="pelajaran.html" class="btn-home" data-tooltip="Halaman Pelajaran"
+      >🏠</a
+    >
+
+    <div class="overlay" id="videoOverlay">
+      <div class="popup">
+        <button class="close-btn" onclick="closeVideo()">×</button>
+        <video controls id="lessonVideo">
+          <source src="image/campuran.mp4" type="video/mp4" />
+          Browser anda tidak menyokong video ini.
+        </video>
+      </div>
+    </div>
+
+    <div class="overlay" id="flipbookOverlay">
+      <div class="popup">
+        <button class="close-btn" onclick="closeFlipbook()">×</button>
+        <iframe
+          src="https://anyflip.com/hdzcp/iefv/"
+          allowfullscreen
+          frameborder="0"
+        ></iframe>
+      </div>
+    </div>
+    <audio id="CampuranSound" preload="auto" style="display: none">
+      <source src="sound/Campuran.wav" type="audio/wav" />
+    </audio>
+    <audio
+      id="backSound"
+      src="sound/back.mp3"
+      preload="auto"
+      style="display: none"
+    ></audio>
+    <script>
+      (function () {
+        const audio = document.getElementById("CampuranSound");
+        if (!audio) return;
+        audio.volume = 0.8;
+
+        window.addEventListener("load", async () => {
+          try {
+            audio.currentTime = 0;
+            await audio.play();
+          } catch (err) {
+            // Autoplay blocked — play on first user gesture
+            const unlock = () => {
+              audio.play().catch(() => {});
+              document.removeEventListener("pointerdown", unlock);
+              document.removeEventListener("keydown", unlock);
+            };
+            document.addEventListener("pointerdown", unlock, {
+              once: true,
+              passive: true,
+            });
+            document.addEventListener("keydown", unlock, {
+              once: true,
+              passive: true,
+            });
+          }
+        });
+      })();
+    </script>
+
+    <script>
+      // Stars background
+      const starsContainer = document.getElementById("stars");
+      for (let i = 0; i < 100; i++) {
+        const s = document.createElement("div");
+        s.classList.add("star");
+        s.style.left = Math.random() * 100 + "%";
+        s.style.top = Math.random() * 100 + "%";
+        s.style.animationDelay = Math.random() * 2 + "s";
+        starsContainer.appendChild(s);
+      }
+
+      function toggleMenu() {
+        document.getElementById("navLinks").classList.toggle("show");
+      }
+
+      function openVideo() {
+        document.getElementById("videoOverlay").classList.add("show");
+        document.getElementById("lessonVideo").play();
+      }
+
+      function closeVideo() {
+        const overlay = document.getElementById("videoOverlay");
+        const video = document.getElementById("lessonVideo");
+        overlay.classList.remove("show");
+        video.pause();
+        video.currentTime = 0;
+
+        // PLAY BACK SOUND SAFELY (with gesture)
+        const backSound = document.getElementById("backSound");
+        if (backSound) {
+          backSound.currentTime = 0;
+          backSound.play().catch((err) => {
+            console.warn("Back sound couldn't autoplay:", err);
+          });
+        }
+      }
+
+      function openFlipbook() {
+        document.getElementById("flipbookOverlay").classList.add("show");
+      }
+
+      function closeFlipbook() {
+        document.getElementById("flipbookOverlay").classList.remove("show");
+      }
+    </script>
+  </body>
+</html>

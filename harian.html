@@ -1,0 +1,1025 @@
+<!doctype html>
+<html lang="ms">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Bijak Pecahan | Reka Menu Tengah Hari</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      /* ===== common navbar + responsive hamburger styles (shared) ===== */
+      .navbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 15px 30px;
+        background: rgba(10, 10, 40, 0.85);
+        position: fixed;
+        width: 100%;
+        top: 0;
+        z-index: 100;
+        box-sizing: border-box;
+      }
+      .nav-left {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+      .nav-left img {
+        width: 250px;
+        height: auto;
+        max-height: 80px;
+        display: block;
+      }
+      .nav-title {
+        font-size: 12px;
+        background: #00aaff;
+        padding: 6px 12px;
+        border-radius: 18px;
+        white-space: nowrap;
+      }
+      .hamburger {
+        display: none;
+        flex-direction: column;
+        gap: 5px;
+        width: 24px;
+        height: 18px;
+        cursor: pointer;
+      }
+      .hamburger div {
+        background-color: #fff;
+        height: 3px;
+        border-radius: 2px;
+      }
+      .nav-links {
+        display: flex;
+        gap: 20px;
+      }
+      .nav-links a {
+        color: #fff;
+        text-decoration: none;
+        font-size: 13px;
+      }
+      .nav-links a:hover,
+      .nav-links a.active {
+        color: #ffd700;
+        text-shadow: 0 0 8px #ffd700;
+      }
+
+      /* Mobile */
+      @media (max-width: 900px) {
+        .nav-left img {
+          width: 150px;
+          height: auto;
+          max-height: 45px;
+        }
+        .hamburger {
+          display: flex;
+        }
+        .nav-links {
+          display: none;
+        }
+        .nav-links.show {
+          display: flex;
+          flex-direction: column;
+          gap: 10px;
+          position: fixed;
+          top: 64px;
+          right: 12px;
+          background: rgba(10, 10, 40, 0.98);
+          padding: 12px;
+          border-radius: 10px;
+          width: calc(100% - 36px);
+          max-width: 360px;
+          box-shadow: 0 8px 30px rgba(0, 0, 0, 0.6);
+          z-index: 1200;
+        }
+      }
+      /* End common navbar styles */
+
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      body {
+        font-family: "Press Start 2P", cursive;
+        background: url("image/background.jpg") no-repeat center center fixed;
+        background-size: cover;
+        overflow-x: hidden; /* Prevent horizontal scroll on smaller screens */
+        color: white;
+        min-height: 100vh; /* Use min-height to allow content to expand */
+        display: flex; /* Use flexbox for body to manage overall layout */
+        flex-direction: column;
+      }
+      .stars {
+        position: fixed;
+        width: 100%;
+        height: 100%;
+        background: transparent;
+        z-index: -1;
+        overflow: hidden;
+      }
+      .star {
+        position: absolute;
+        width: 5px;
+        height: 5px;
+        background: rgba(205, 168, 5, 0.529);
+        border-radius: 50%;
+        animation: blink 2s infinite ease-in-out;
+      }
+      @keyframes blink {
+        0%,
+        100% {
+          opacity: 0.2;
+        }
+        50% {
+          opacity: 1;
+        }
+      }
+
+      /* Intro */
+      .intro {
+        margin-top: 110px;
+        text-align: center;
+        padding: 18px;
+      }
+      .intro h1 {
+        font-size: 28px;
+        color: #00ff99;
+        text-shadow: 0 0 14px #00ff99;
+        margin-bottom: 10px;
+      }
+      .intro p {
+        font-size: 14px;
+        color: #ffde59;
+        line-height: 1.5;
+      }
+
+      /* Layout */
+      .container {
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+        gap: 28px;
+        flex-wrap: wrap;
+        margin: 20px auto 60px;
+        width: 100%;
+        max-width: 1100px;
+        padding: 0 14px;
+      }
+      .bank,
+      .plate {
+        background: rgba(10, 10, 40, 0.86);
+        border: 3px solid #00ff51;
+        border-radius: 16px;
+        padding: 18px;
+        width: 360px;
+        min-height: 260px;
+        color: #fff;
+      }
+      .bank h2,
+      .plate h2 {
+        color: #00ff51;
+        font-size: 13px;
+        margin-bottom: 12px;
+      }
+
+      .food {
+        background: #ffeb99;
+        color: #000;
+        border-radius: 10px;
+        padding: 10px;
+        margin: 10px auto;
+        width: 220px;
+        cursor: grab;
+        font-size: 13px;
+        text-align: center;
+        user-select: none;
+      }
+
+      .dropzone {
+        border: 3px dashed #00ff51;
+        border-radius: 10px;
+        min-height: 140px;
+        padding: 10px;
+        background: rgba(255, 255, 255, 0.04);
+        color: #fff;
+      }
+
+      .hud {
+        margin-top: 12px;
+        color: #00ffff;
+        font-size: 12px;
+      }
+
+      /* Buttons */
+      .btn {
+        background: #26ff00;
+        color: #fff;
+        border: none;
+        padding: 12px 18px;
+        border-radius: 10px;
+        cursor: pointer;
+        box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
+        font-family: "Press Start 2P", cursive;
+        font-size: 12px;
+        margin: 8px 6px;
+      }
+      .btn.alt {
+        background: #ff9900;
+      }
+
+      /* Level buttons */
+      .level-controls {
+        display: flex;
+        gap: 10px;
+        justify-content: center;
+        flex-wrap: wrap;
+        margin-top: 10px;
+      }
+      .level-btn {
+        padding: 10px 14px;
+        border-radius: 10px;
+        font-size: 12px;
+        background: linear-gradient(45deg, #00b35a, #27d24a);
+        color: #001;
+        box-shadow: 0 6px 18px rgba(0, 0, 0, 0.18);
+        cursor: pointer;
+        border: 1px solid rgba(255, 255, 255, 0.06);
+        position: relative;
+        min-width: 220px;
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        gap: 10px;
+        transition:
+          transform 0.12s ease,
+          opacity 0.12s ease;
+        padding-right: 56px; /* reserve for lock badge */
+      }
+      .level-btn:hover {
+        transform: translateY(-3px);
+      }
+      .level-btn.active {
+        outline: 3px solid rgba(255, 255, 255, 0.04);
+        transform: none;
+      }
+
+      .level-btn.locked {
+        opacity: 0.9;
+        filter: grayscale(0.2);
+        cursor: not-allowed;
+        background: linear-gradient(45deg, #9bd9a9, #7fcf8f);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+      }
+      .level-btn.locked::after {
+        content: "🔒";
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 28px;
+        height: 28px;
+        background: rgba(0, 0, 0, 0.12);
+        border-radius: 50%;
+        color: #fff;
+        font-size: 14px;
+        position: absolute;
+        right: 12px; /* aligns with text block right edge */
+        top: 50%;
+        transform: translateY(-50%);
+        box-shadow: 0 3px 8px rgba(0, 0, 0, 0.25);
+      }
+
+      /* Popup modal */
+      .popup {
+        position: fixed;
+        inset: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: rgba(0, 0, 0, 0.6);
+        z-index: 1000;
+        visibility: hidden;
+        opacity: 0;
+        transition:
+          opacity 0.18s,
+          visibility 0.18s;
+        padding: 16px;
+      }
+      .popup.show {
+        visibility: visible;
+        opacity: 1;
+      }
+      .popup-card {
+        width: 100%;
+        max-width: 420px;
+        background: linear-gradient(180deg, #071018, #0e1f2a);
+        border: 3px solid #12cb0c;
+        border-radius: 14px;
+        padding: 18px;
+        text-align: center;
+        color: #fff;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+      }
+      .popup-icon {
+        font-size: 32px;
+        color: #ffd700;
+        margin-bottom: 8px;
+      }
+      .popup h3 {
+        font-size: 14px;
+        color: #00ff99;
+        margin-bottom: 8px;
+      }
+      .popup p {
+        font-size: 13px;
+        color: #fffbcc;
+        margin-bottom: 12px;
+        line-height: 1.4;
+      }
+
+      .popup-actions {
+        display: flex;
+        gap: 10px;
+        justify-content: center;
+        align-items: center;
+        flex-wrap: wrap;
+      }
+      .popup-actions button {
+        padding: 10px 14px;
+        border-radius: 10px;
+        background: #ffde59;
+        border: none;
+        cursor: pointer;
+        font-family: "Press Start 2P", cursive;
+        font-size: 12px;
+        min-width: 120px;
+      }
+      .popup-close {
+        position: absolute;
+        top: 12px;
+        right: 12px;
+        background: transparent;
+        border: 2px solid rgba(255, 255, 255, 0.12);
+        color: #fff;
+        padding: 6px 8px;
+        border-radius: 8px;
+        cursor: pointer;
+        font-size: 12px;
+      }
+
+      /* Home */
+      .btn-home {
+        position: fixed;
+        bottom: 16px;
+        right: 28px;
+        z-index: 1100;
+        padding: 10px 12px;
+        border-radius: 12px;
+        background: linear-gradient(45deg, #2fba00, #95ff00);
+        color: #fff;
+        border: 2px solid #c2ffa3;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+        font-size: 20px;
+        text-decoration: none;
+      }
+      .btn-home::before {
+        content: attr(data-tooltip);
+        position: absolute;
+        bottom: 100%;
+        right: 0;
+        background: rgba(0, 0, 0, 0.9);
+        color: #ffd700;
+        padding: 6px 10px;
+        border-radius: 8px;
+        white-space: nowrap;
+        font-size: 10px;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.28s ease;
+        margin-bottom: 10px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+
+        /* OPTIONAL (better readability) */
+        font-family: Arial, sans-serif;
+      }
+
+      .btn-home:hover::before {
+        opacity: 1;
+      }
+      .btn-home:hover {
+        transform: scale(1.15) rotate(-3deg);
+        box-shadow: 0 0 30px #84ff00;
+      }
+
+      /* Responsive adjustments */
+      @media (max-width: 900px) {
+        .container {
+          gap: 18px;
+          padding: 0 12px;
+        }
+        .bank,
+        .plate {
+          width: 100%;
+          max-width: 700px;
+        }
+        .level-btn {
+          min-width: 100%;
+          padding-right: 48px;
+        }
+        .food {
+          width: 88%;
+          font-size: 14px;
+          padding: 12px;
+        }
+        .btn-home {
+          bottom: 10px;
+          right: 10px;
+          font-size: 14px;
+          padding: 8px 10px;
+          border-radius: 10px;
+        }
+      }
+      @media (max-width: 480px) {
+        .intro h1 {
+          font-size: 20px;
+        }
+        .intro p {
+          font-size: 13px;
+          padding: 0 6px;
+        }
+        .level-controls {
+          gap: 8px;
+          padding: 0 10px;
+        }
+        .level-btn {
+          min-width: 100%;
+          padding: 12px 14px;
+          font-size: 12px;
+          justify-content: space-between;
+        }
+        .level-btn.locked::after {
+          right: 10px;
+          width: 24px;
+          height: 24px;
+          font-size: 12px;
+        }
+        .bank,
+        .plate {
+          padding: 14px;
+          border-radius: 12px;
+        }
+        .food {
+          width: 92%;
+          font-size: 15px;
+          padding: 12px;
+        }
+        .popup-card {
+          padding: 14px;
+          border-radius: 12px;
+        }
+        .popup-actions button {
+          width: 100%;
+          min-width: auto;
+        }
+        .popup-actions {
+          flex-direction: column;
+          gap: 10px;
+          padding: 6px 0 0;
+        }
+        .btn {
+          padding: 12px;
+          font-size: 13px;
+          width: 48%;
+        }
+      }
+
+      @media (max-width: 360px) {
+        .intro h1 {
+          font-size: 18px;
+        }
+        .btn {
+          width: 100%;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="stars" id="stars"></div>
+
+    <!-- replace existing navbar with unified markup -->
+    <div class="navbar">
+      <div class="nav-left">
+        <img src="image/newLogo.png" alt="Logo" />
+      </div>
+
+      <div class="hamburger" id="hamburger" aria-label="Buka menu">
+        <div></div>
+        <div></div>
+        <div></div>
+      </div>
+
+      <nav class="nav-links" id="navLinks" aria-label="Navigasi utama">
+        <a href="index.html">🏠 HALAMAN UTAMA</a>
+        <a href="pelajaran.html">✏️ PELAJARAN</a>
+        <a href="latihan.html" class="active">🗒️ LATIHAN</a>
+      </nav>
+    </div>
+
+    <div class="intro">
+      <h1 id="pageTitle">Reka Menu Tengah Hari</h1>
+
+      <!-- Level buttons -->
+      <div
+        class="level-controls"
+        style="
+          margin-top: 12px;
+          display: flex;
+          gap: 10px;
+          justify-content: center;
+          flex-wrap: wrap;
+        "
+      >
+        <button class="btn level-btn active" data-level="1">
+          Level 1 (Tengah Hari)
+        </button>
+        <button class="btn level-btn" data-level="2">Level 2 (Sarapan)</button>
+        <button class="btn level-btn" data-level="3">
+          Level 3 (Makan Malam)
+        </button>
+      </div>
+
+      <p style="margin-top: 14px">
+        Pilih makanan dan seret ke pinggan sehingga jumlah pecahan bersamaan
+        <b>1</b>.
+      </p>
+    </div>
+
+    <div class="container">
+      <div class="bank" id="bank">
+        <h2>Senarai Makanan</h2>
+        <!-- items injected by JS -->
+      </div>
+
+      <div class="plate">
+        <h2 id="plateTitle">Pinggan Menu</h2>
+        <div class="dropzone" id="dropzone"></div>
+        <div class="hud">Jumlah Pecahan: <span id="total">0</span></div>
+        <div>
+          <button class="btn" id="checkBtn">Semak</button>
+          <button class="btn alt" id="resetBtn">Reset</button>
+        </div>
+      </div>
+    </div>
+
+    <a href="latihan.html" class="btn-home" data-tooltip="Halaman Latihan">
+      🏠
+    </a>
+
+    <!-- replace old popup markup with this improved modal that includes "Seterusnya" button -->
+    <div class="popup" id="popup">
+      <div
+        class="popup-card"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="popupTitle"
+      >
+        <button class="popup-close" id="popupClose" aria-label="Tutup">
+          ✕
+        </button>
+        <div class="popup-icon" id="popupIcon"></div>
+        <h3 id="popupTitle">Tahniah</h3>
+        <p id="popupText">...</p>
+        <div class="popup-actions">
+          <button id="popupOk">OK</button>
+          <button id="popupNext" style="display: none">Seterusnya</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- audio (use sound/ folder; ubah path jika fail anda di tempat lain) -->
+    <audio id="correctSound" preload="auto">
+      <source src="sound/correctAnswer.wav" type="audio/wav" />
+      Your browser does not support the audio element.
+    </audio>
+    <audio id="wrongSound" preload="auto">
+      <source src="sound/wrongAnswer.wav" type="audio/wav" />
+      Your browser does not support the audio element.
+    </audio>
+
+    <script>
+      // Stars background
+      const starsContainer = document.getElementById("stars");
+      for (let i = 0; i < 100; i++) {
+        const s = document.createElement("div");
+        s.classList.add("star");
+        s.style.left = Math.random() * 100 + "%";
+        s.style.top = Math.random() * 100 + "%";
+        s.style.animationDelay = Math.random() * 2 + "s";
+        starsContainer.appendChild(s);
+      }
+
+      // Hamburger behaviour: toggle nav on mobile + close handlers
+      const hamburger = document.getElementById("hamburger");
+      const navLinks = document.getElementById("navLinks");
+
+      hamburger.addEventListener("click", (e) => {
+        e.stopPropagation();
+        navLinks.classList.toggle("show");
+      });
+
+      // Close nav when clicking any link (mobile)
+      navLinks.querySelectorAll("a").forEach((a) => {
+        a.addEventListener("click", () => {
+          navLinks.classList.remove("show");
+        });
+      });
+
+      // Close nav when clicking outside
+      document.addEventListener("click", (e) => {
+        if (!navLinks.contains(e.target) && !hamburger.contains(e.target)) {
+          navLinks.classList.remove("show");
+        }
+      });
+
+      // Close nav with Escape
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape") navLinks.classList.remove("show");
+      });
+
+      // Level data (three levels)
+      const levels = {
+        1: {
+          name: "Tengah Hari",
+          items: [
+            { text: "🍚 Nasi (¼)", value: 0.25 },
+            { text: "🍗 Ayam (¼)", value: 0.25 },
+            { text: "🥦 Sayur (¼)", value: 0.25 },
+            { text: "🍌 Pisang (¼)", value: 0.25 },
+            { text: "🥚 Telur (¼)", value: 0.25 },
+            { text: "🥤 Jus (¼)", value: 0.25 },
+          ],
+        },
+        2: {
+          name: "Sarapan Pagi",
+          items: [
+            { text: "🥐 Roti (½)", value: 0.5 },
+            { text: "🥛 Susu (½)", value: 0.5 },
+            { text: "🍎 Epal (¼)", value: 0.25 },
+            { text: "🍌 Pisang (¼)", value: 0.25 },
+            { text: "🥚 Telur (½)", value: 0.5 },
+            { text: "☕ Kopi (¼)", value: 0.25 },
+          ],
+        },
+        3: {
+          name: "Makan Malam",
+          items: [
+            { text: "🍝 Pasta (½)", value: 0.5 },
+            { text: "🥗 Salad (¼)", value: 0.25 },
+            { text: "🍗 Ayam (¼)", value: 0.25 },
+            { text: "🍠 Ubi (¼)", value: 0.25 },
+            { text: "🥤 Air (¼)", value: 0.25 },
+            { text: "🍮 Pencuci Mulut (½)", value: 0.5 },
+          ],
+        },
+      };
+
+      // Elements & state
+      const bankEl = document.getElementById("bank");
+      const dropzone = document.getElementById("dropzone");
+      const totalDisplay = document.getElementById("total");
+      const pageTitle = document.getElementById("pageTitle");
+      const plateTitle = document.getElementById("plateTitle");
+      const levelBtns = document.querySelectorAll(".level-btn");
+
+      let currentLevel = 1;
+      let total = 0;
+
+      // unlocked levels kept only in-memory for current session (do NOT persist)
+      let unlockedLevels = [1]; // start with level 1 unlocked
+
+      // no-op: do not persist progress to localStorage
+      function saveUnlocked() {
+        /* intentionally empty — progress is not saved */
+      }
+
+      // Update level button UI according to unlockedLevels
+      function updateLevelButtonsUI() {
+        levelBtns.forEach((btn) => {
+          const lvl = parseInt(btn.dataset.level, 10);
+          const isUnlocked = unlockedLevels.includes(lvl);
+          btn.classList.toggle("locked", !isUnlocked);
+          btn.classList.toggle("active", currentLevel === lvl);
+        });
+      }
+
+      // Helper to create draggable item node
+      function createFoodNode(item) {
+        const div = document.createElement("div");
+        div.className = "food";
+        div.draggable = true;
+        div.dataset.value = item.value;
+        div.textContent = item.text;
+        // dragstart listener
+        div.addEventListener("dragstart", (e) => {
+          e.dataTransfer.setData("value", item.value);
+          e.dataTransfer.setData("text", item.text);
+        });
+        return div;
+      }
+
+      // Load level: populate bank and reset dropzone/total
+      function loadLevel(levelNum) {
+        // prevent loading locked level
+        if (!unlockedLevels.includes(levelNum)) {
+          // show small modal message using popup
+          popupTitle.textContent = "Perhatian";
+          popupIcon.textContent = " 🔒";
+          popupText.textContent = `Selesaikan Level ${
+            levelNum - 1
+          } terlebih dahulu untuk buka Level ${levelNum}.`;
+          popup.classList.add("show");
+          return;
+        }
+        currentLevel = levelNum;
+        // Update UI
+        pageTitle.textContent = `Reka Menu ${levels[levelNum].name}`;
+        plateTitle.textContent = `Pinggan Menu (${levels[levelNum].name})`;
+
+        // Clear bank and populate
+        const listContainer = document.createElement("div");
+        listContainer.innerHTML = "<h2>Senarai Makanan</h2>";
+        // remove previous children of bankEl
+        bankEl.innerHTML = "<h2>Senarai Makanan</h2>";
+        levels[levelNum].items.forEach((it) => {
+          const node = createFoodNode(it);
+          bankEl.appendChild(node);
+        });
+
+        // Reset plate
+        total = 0;
+        totalDisplay.textContent = total.toFixed(2);
+        dropzone.innerHTML = "";
+        // adjust active button styling
+        updateLevelButtonsUI();
+      }
+
+      // Bind level buttons
+      levelBtns.forEach((btn) => {
+        btn.addEventListener("click", () => {
+          const lvl = parseInt(btn.dataset.level, 10);
+          // ignore clicks on locked buttons
+          if (!unlockedLevels.includes(lvl)) {
+            popupTitle.textContent = "Perhatian";
+            popupIcon.textContent = "🔒";
+            popupText.textContent = `Selesaikan Level sebelumnya untuk buka Level ${lvl}.`;
+            popup.classList.add("show");
+            return;
+          }
+          loadLevel(lvl);
+        });
+      });
+
+      // ensure UI initial state
+      updateLevelButtonsUI();
+
+      // initial load
+      loadLevel(1);
+
+      // drop handlers (dropzone is reused)
+      dropzone.addEventListener("dragover", (e) => e.preventDefault());
+      dropzone.addEventListener("drop", (e) => {
+        e.preventDefault();
+        const value = parseFloat(e.dataTransfer.getData("value"));
+        const text = e.dataTransfer.getData("text");
+        if (Number.isNaN(value)) return;
+        total += value;
+        totalDisplay.textContent = total.toFixed(2);
+        const item = document.createElement("div");
+        item.textContent = text;
+        item.className = "food";
+        // allow removing item on click (optional)
+        item.addEventListener("click", () => {
+          // subtract value and remove
+          total -= value;
+          totalDisplay.textContent = total.toFixed(2);
+          item.remove();
+        });
+        dropzone.appendChild(item);
+      });
+
+      // Popup & sound elements
+      const correctSound = document.getElementById("correctSound");
+      const wrongSound = document.getElementById("wrongSound");
+      const popup = document.getElementById("popup");
+      const popupText = document.getElementById("popupText");
+      const popupIcon = document.getElementById("popupIcon"); // changed to get by id
+      const popupTitle = document.getElementById("popupTitle");
+      const popupOkBtn = document.getElementById("popupOk");
+      const popupCloseBtn = document.getElementById("popupClose");
+      const popupNextBtn = document.getElementById("popupNext");
+
+      // --- audio helpers: preload check and robust play with unlock prompt ---
+      function ensureAudioLoaded(audioEl) {
+        return new Promise((resolve) => {
+          audioEl.load();
+          let done = false;
+          function onOk() {
+            if (!done) {
+              done = true;
+              cleanup();
+              resolve(true);
+            }
+          }
+          function onErr() {
+            if (!done) {
+              done = true;
+              cleanup();
+              resolve(false);
+            }
+          }
+          function cleanup() {
+            audioEl.removeEventListener("canplaythrough", onOk);
+            audioEl.removeEventListener("error", onErr);
+          }
+          audioEl.addEventListener("canplaythrough", onOk);
+          audioEl.addEventListener("error", onErr);
+          setTimeout(() => {
+            if (!done) {
+              done = true;
+              cleanup();
+              resolve(false);
+            }
+          }, 2500);
+        });
+      }
+
+      async function playSound(audioEl) {
+        try {
+          // reset position and attempt play
+          audioEl.currentTime = 0;
+          await audioEl.play();
+          return true;
+        } catch (err) {
+          console.warn("play rejected:", err);
+          showEnableAudioPrompt();
+          return false;
+        }
+      }
+
+      function showEnableAudioPrompt() {
+        if (document.getElementById("audioUnlockOverlay")) return;
+        const overlay = document.createElement("div");
+        overlay.id = "audioUnlockOverlay";
+        Object.assign(overlay.style, {
+          position: "fixed",
+          inset: 0,
+          background: "rgba(0,0,0,0.6)",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          zIndex: 99999,
+          color: "#fff",
+          fontFamily: '"Press Start 2P", cursive',
+        });
+        const card = document.createElement("div");
+        Object.assign(card.style, {
+          background: "#081018",
+          padding: "18px",
+          borderRadius: "12px",
+          textAlign: "center",
+          border: "2px solid #12cb0c",
+          width: "90%",
+          maxWidth: "420px",
+          color: "#fff",
+        });
+        card.innerHTML = `<div style="font-size:14px;color:#ffd700;margin-bottom:8px">🔊 Sentuh untuk Aktifkan Audio</div>
+                          <div style="font-size:10px;color:#ddd;margin-bottom:12px">Tekan skrin untuk benarkan bunyi.</div>
+                          <button id="unlockAudioBtn" style="padding:10px 14px;border-radius:8px;border:none;background:#ffd700;cursor:pointer">Aktifkan Audio</button>`;
+        overlay.appendChild(card);
+        document.body.appendChild(overlay);
+
+        function unlock() {
+          // try to resume AudioContext if present (best-effort)
+          try {
+            if (
+              window.audioContext &&
+              window.audioContext.state === "suspended"
+            )
+              window.audioContext.resume();
+          } catch (e) {}
+          // attempt to play a short sound to unlock
+          playSound(correctSound).catch(() => {});
+          overlay.remove();
+        }
+        document
+          .getElementById("unlockAudioBtn")
+          .addEventListener("click", unlock, { once: true });
+        window.addEventListener(
+          "pointerdown",
+          function once() {
+            unlock();
+          },
+          { once: true, passive: true },
+        );
+      }
+
+      // preload audio and log status
+      (async function initAudio() {
+        const ok1 = await ensureAudioLoaded(correctSound);
+        const ok2 = await ensureAudioLoaded(wrongSound);
+        console.log("Audio preload:", { correct: ok1, wrong: ok2 });
+        if (!ok1 || !ok2)
+          console.warn(
+            "Periksa path fail audio (sound/correctAnswer.wav, sound/wrongAnswer.wav).",
+          );
+      })();
+
+      // unified result handler: show popup + play appropriate sound
+      function showResult(success) {
+        // reset popup buttons visibility
+        popupOkBtn.style.display = "inline-block";
+        popupNextBtn.style.display = "none";
+
+        if (success) {
+          // success UI + sound
+          popupTitle.textContent = "Tahniah";
+          popupIcon.textContent = "🎉";
+          popupText.innerHTML = "Jumlah pecahan cukup 1!";
+          playSound(correctSound).catch(() => {});
+
+          // unlock next level (if any) but do NOT auto-load it
+          const nextLevel = currentLevel + 1;
+          if (
+            nextLevel <= Object.keys(levels).length &&
+            !unlockedLevels.includes(nextLevel)
+          ) {
+            unlockedLevels.push(nextLevel);
+            unlockedLevels.sort((a, b) => a - b);
+            saveUnlocked();
+            updateLevelButtonsUI();
+            popupText.innerHTML += `<br><strong style="color:#ffd700">Level ${nextLevel} dibuka!</strong>`;
+          }
+
+          // show "Seterusnya" button if next level exists and is unlocked
+          if (
+            nextLevel <= Object.keys(levels).length &&
+            unlockedLevels.includes(nextLevel)
+          ) {
+            popupNextBtn.style.display = "inline-block";
+          }
+
+          popup.classList.add("show");
+        } else {
+          // failure UI + sound
+          popupTitle.textContent = "Cuba Lagi";
+          popupIcon.textContent = "⚠️";
+          popupText.textContent = "Jumlah belum cukup 1. Cuba lagi!";
+          popup.classList.add("show");
+          playSound(wrongSound).catch(() => {});
+        }
+      }
+
+      // popup Next button: load next level when clicked (if unlocked)
+      popupNextBtn.addEventListener("click", () => {
+        const next = currentLevel + 1;
+        if (unlockedLevels.includes(next)) {
+          loadLevel(next);
+        }
+        // close popup after navigating
+        popup.classList.remove("show");
+      });
+
+      document.getElementById("checkBtn").onclick = () => {
+        const ok = Math.abs(total - 1) < 0.001;
+        showResult(ok);
+      };
+
+      document.getElementById("resetBtn").onclick = () => {
+        total = 0;
+        totalDisplay.textContent = "0";
+        dropzone.innerHTML = "";
+      };
+
+      function closePopup() {
+        popup.classList.remove("show");
+      }
+
+      // Close popup when clicking outside of it
+      window.addEventListener("click", (event) => {
+        if (event.target === popup) {
+          closePopup();
+        }
+      });
+
+      // Close popup using the close button
+      popupCloseBtn.addEventListener("click", closePopup);
+
+      // Close popup on OK (do NOT replay sound)
+      popupOkBtn.addEventListener("click", closePopup);
+    </script>
+  </body>
+</html>
