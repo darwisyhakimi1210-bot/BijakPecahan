@@ -63,45 +63,6 @@ BijakPecahan/
 ├── sound/              # Fail bunyi (latihan, kesan, latar)
 └── .nojekyll           # Melangkau proses Jekyll GitHub Pages
 ```
-
----
-
-## Menjalankan Secara Tempatan
-
-Tidak perlu alat khas — mana-mana pelayan statik asas sudah memadai.
-
-**Pilihan 1 — Laragon (Windows):**
-
-1. Letakkan folder ini di `C:\laragon\www\BijakPecahan\`
-2. Buka Laragon → klik **Start All**
-3. Lawati `http://localhost/BijakPecahan/index.html`
-
-**Pilihan 2 — Python sahaja:**
-
-```bash
-cd BijakPecahan
-python -m http.server 8000
-```
-
-Kemudian buka `http://localhost:8000/`.
-
-> **Nota:** Jangan buka fail HTML dengan *double-click*. WebGL dan modul ES
-> (`importmap`) memerlukan fail di-*serve* melalui `http://`, bukan `file://`.
-
----
-
-## Deployment
-
-Repositori ini dikonfigurasi untuk **GitHub Pages**:
-
-- Sumber: branch `main`, folder `/`
-- URL: https://darwisyhakimi1210-bot.github.io/BijakPecahan/
-
-Setiap kali anda `push` ke branch `main`, GitHub Pages akan membina semula
-laman web secara automatik.
-
----
-
 ## Catatan
 
 - `image/bukuTeks.pdf` ialah salinan tempatan buku teks (617 MB). Ia **tidak**
